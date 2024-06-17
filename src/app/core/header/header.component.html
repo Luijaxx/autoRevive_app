@@ -42,9 +42,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
                   </svg>
                 </div>
-                <div class="flex-auto">
-                  <a href="#" class="block font-semibold text-gray-900">
-                    Analytics
+                <div class="flex-auto" >
+                  <a   class="block font-semibold text-gray-900">
+                    Product List
                     <span class="absolute inset-0"></span>
                   </a>
                   <p class="mt-1 text-gray-600">Get a better understanding of your traffic</p>
@@ -124,7 +124,7 @@
           </div>
         </div>
   
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Billing</a>
+        <a [routerLink]="['/product']"  routerLinkActive="link-active" class="text-sm font-semibold leading-6 text-gray-900">Product List</a>
         <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Marketplace</a>
         <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Company</a>
       </div>

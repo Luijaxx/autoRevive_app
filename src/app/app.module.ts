@@ -6,7 +6,10 @@ import { CoreModule } from './core/core.module';
 import { ShareModule } from './share/share.module';
 import { HomeModule } from './home/home.module';
 import { UserModule } from './user/user.module';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
+import { BillingModule } from './billing/billing.module';
+import { ProductModule } from './product/product.module';
+import { ReservationModule } from './reservation/reservation.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,11 @@ import { HttpClientModule } from '@angular/common/http';
     HomeModule,
     UserModule,
     // router manager
+    BillingModule,
+    ProductModule,
+    ReservationModule,
     AppRoutingModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
