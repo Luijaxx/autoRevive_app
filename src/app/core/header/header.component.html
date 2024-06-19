@@ -125,7 +125,9 @@
         </div>
   
         <a [routerLink]="['/product']"  routerLinkActive="link-active" class="text-sm font-semibold leading-6 text-gray-900">Product List</a>
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Marketplace</a>
+        <a [routerLink]="['invoice/listByManager/:id']"  routerLinkActive="link-active" class="text-sm font-semibold leading-6 text-gray-900">Invoice List by Manager</a>
+
+        <a [routerLink]="['reservation/listByManager/:id']" class="text-sm font-semibold leading-6 text-gray-900">Reservatios List</a>
         <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Company</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">

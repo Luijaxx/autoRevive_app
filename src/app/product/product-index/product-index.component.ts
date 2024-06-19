@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './product-index.component.css'
 })
 export class ProductIndexComponent {
-  datos: any;
+  data: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private gService: GenericService, private router: Router) {
@@ -24,11 +24,11 @@ export class ProductIndexComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe((respuesta: any) => {
         console.log(respuesta);
-        this.datos = respuesta;
+        this.data = respuesta;
       });
   }
 
-  detalle(id:number){
+  detail(id:number){
       this.router.navigate(['/product',id])
   }
 

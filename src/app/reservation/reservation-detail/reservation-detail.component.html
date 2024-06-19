@@ -1,0 +1,67 @@
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="container mx-auto mt-10 bg-white rounded-lg shadow overflow-hidden">
+      <!-- Reservation Header -->
+      <div class="px-6 py-4 bg-gray-100 border-b border-gray-200">
+        <h1 class="text-2xl font-bold text-gray-800">Reservation #{{ data.id }}</h1>
+        <p class="mt-2 text-sm text-gray-600">Generated on: {{ data.date | date:'dd/MM/yyyy' }}</p>
+        <p class="mt-2 text-sm text-gray-600">Status: <span [style.color]="data.status.color">{{ data.status.description }}</span></p>
+      </div>
+  
+      <!-- Reservation Body -->
+      <div class="p-6">
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Client Information -->
+          <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-2 border-b-2 pb-1">Client Information</h2>
+            <p class="mt-2 text-sm text-gray-600"><strong>ID:</strong> {{ data.client.id }}</p>
+            <p class="text-sm text-gray-600"><strong>Name:</strong> {{ data.client.name }}</p>
+            <p class="text-sm text-gray-600"><strong>Email:</strong> {{ data.client.email }}</p>
+            <p class="text-sm text-gray-600"><strong>Phone:</strong> {{ data.client.phone }}</p>
+            <p class="text-sm text-gray-600"><strong>Address:</strong> {{ data.client.exactAddress }}</p>
+          </div>
+  
+          <!-- Branch Information -->
+          <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-2 border-b-2 pb-1">Branch Information</h2>
+            <p class="mt-2 text-sm text-gray-600"><strong>Name:</strong> {{ data.branch.name }}</p>
+            <p class="text-sm text-gray-600"><strong>Email:</strong> {{ data.branch.email }}</p>
+            <p class="text-sm text-gray-600"><strong>Phone:</strong> {{ data.branch.phoneNumber }}</p>
+            <p class="text-sm text-gray-600"><strong>Address:</strong> {{ data.branch.exactAddress }}</p>
+          </div>
+  
+          <!-- Service Information -->
+          <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-2 border-b-2 pb-1">Service Information</h2>
+            <p class="mt-2 text-sm text-gray-600"><strong>Service:</strong> {{ data.service.name }}</p>
+            <p class="text-sm text-gray-600"><strong>Description:</strong> {{ data.service.description }}</p>
+            <p class="text-sm text-gray-600"><strong>Price:</strong> {{ data.service.priceRate | currency:'USD' }}</p>
+          </div>
+  
+          <!-- Schedule Information -->
+          <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-2 border-b-2 pb-1">Schedule Information</h2>
+            <p class="mt-2 text-sm text-gray-600"><strong>Date:</strong> {{ data.startTime | date:'dd/MM/yyyy' }}</p>
+            <p class="text-sm text-gray-600"><strong>Time:</strong> {{ data.startTime | date:'HH:mm' }} - {{ data.endTime | date:'HH:mm' }}</p>
+        </div>
+  
+          <!-- Client Answers -->
+          <div class="mb-6 col-span-2">
+            <h2 class="text-lg font-semibold text-gray-800 mb-2 border-b-2 pb-1">Client Answers</h2>
+            <p class="mt-2 text-sm text-gray-600"><strong>Question 1: Would you prefer to wait in the waiting room while we perform the service?</strong> {{ data.answer1 }}</p>
+            <p class="text-sm text-gray-600"><strong>Question 2: Need a drink or snack while you wait?</strong> {{ data.answer2 }}</p>
+            <p class="text-sm text-gray-600"><strong>Question 3: Are you interested in receiving regular updates on the progress of the service?</strong> {{ data.answer3 }}</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Reservation Footer -->
+      <div class="px-6 py-4 bg-gray-100 border-t border-gray-200 text-sm text-gray-600"
+      [ngStyle]="{'background-color': data.status.color}"
+      >
+        
+      </div>
+    </div>
+  </div>
+  
+  
+  
