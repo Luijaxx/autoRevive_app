@@ -2,11 +2,24 @@ import { Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from '../../share/generic.service';
 import { ActivatedRoute } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-billing-detail',
   templateUrl: './billing-detail.component.html',
-  styleUrl: './billing-detail.component.css'
+  styleUrl: './billing-detail.component.css',
+  animations: [
+    trigger('fadeIn', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition(':enter', [
+        animate('500ms ease-in', style({
+          opacity: 1
+        }))
+      ])
+    ])
+  ]
 })
 export class BillingDetailComponent {
   data: any;

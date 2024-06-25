@@ -1,0 +1,8 @@
+footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background-color: #1a202c; /* Color de fondo del footer */
+    color: #cbd5e0; /* Color del texto del footer */
+    padding: 1rem 0; /* Espaciado interno del footer */
+  }

@@ -1,0 +1,20 @@
+/* Ensure html and body take full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Main wrapper for the content */
+  .body-container {
+    min-height: calc(100vh - 100px); /* Adjust 100px to the height of your header and footer combined */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Ensure the footer stays at the bottom */
+  body > app-footer {
+    margin-top: auto;
+    width: 100%;
+  }
+  

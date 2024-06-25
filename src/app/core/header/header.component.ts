@@ -4,7 +4,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css',
+  styleUrls: ['./header.component.css'],
   animations: [
     trigger('dropdownAnimation', [
       state('open', style({
@@ -16,22 +16,29 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
         transform: 'translateY(-1rem)'
       })),
       transition('closed => open', [
-        animate('5000ms ease-out')
+        animate('300ms ease-out')
       ]),
       transition('open => closed', [
-        animate('5000ms ease-in')
+        animate('300ms ease-in')
       ]),
     ])
   ]
 })
 export class HeaderComponent {
-  isOpen = false;
+  openDropdowns: { [key: string]: boolean } = {};
 
-  toggleDropdown() {
-    this.isOpen = !this.isOpen;
+  toggleDropdown(menu: string) {
+    // Cierra todos los menús antes de abrir el menú seleccionado
+    for (const key in this.openDropdowns) {
+      if (this.openDropdowns.hasOwnProperty(key)) {
+        this.openDropdowns[key] = false;
+      }
+    }
+    // Abre el menú seleccionado
+    this.openDropdowns[menu] = true;
   }
 
-  closeDropdown() {
-    this.isOpen = false;
+  closeDropdown(menu: string) {
+    this.openDropdowns[menu] = false;
   }
 }

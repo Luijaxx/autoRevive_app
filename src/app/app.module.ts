@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BillingModule } from './billing/billing.module';
 import { ProductModule } from './product/product.module';
 import { ReservationModule } from './reservation/reservation.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ReservationModule } from './reservation/reservation.module';
   // TO DO modules [all in bd]
   imports: [
     //module order 
+    BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule, 
     CoreModule,

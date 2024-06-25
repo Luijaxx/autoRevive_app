@@ -2,11 +2,24 @@ import { Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from '../../share/generic.service';
 import { ActivatedRoute } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.css'
+  styleUrl: './product-detail.component.css',
+  animations: [
+    trigger('fadeIn', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition(':enter', [
+        animate('500ms ease-in', style({
+          opacity: 1
+        }))
+      ])
+    ])
+  ]
 })
 export class ProductDetailComponent {
   data: any;
@@ -31,4 +44,5 @@ export class ProductDetailComponent {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
 }

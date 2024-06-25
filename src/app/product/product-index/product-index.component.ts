@@ -2,11 +2,24 @@ import { Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from '../../share/generic.service';
 import { Router } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-product-index',
   templateUrl: './product-index.component.html',
-  styleUrl: './product-index.component.css'
+  styleUrls: ['./product-index.component.css'],
+  animations: [
+    trigger('fadeIn', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition(':enter', [
+        animate('500ms ease-in', style({
+          opacity: 1
+        }))
+      ])
+    ])
+  ]
 })
 export class ProductIndexComponent {
   data: any;
@@ -36,4 +49,7 @@ export class ProductIndexComponent {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
+ 
+  
 }
