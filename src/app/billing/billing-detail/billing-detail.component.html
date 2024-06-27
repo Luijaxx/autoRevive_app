@@ -28,8 +28,8 @@ class="flex justify-center items-center min-h-screen bg-gray-100">
             <tr>
               <th scope="col" class="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">Description</th>
               <th scope="col" class="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-              <th scope="col" class="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">Subtotal</th>
-              <th scope="col" class="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">Date</th>
+              <th scope="col" class="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">Price</th>
+              <th scope="col" class="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">SubTotal</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -40,8 +40,8 @@ class="flex justify-center items-center min-h-screen bg-gray-100">
                 {{ itemDetail.serviceId ? 'Service: ' + itemDetail.service.name : 'Product: ' + itemDetail.product.name }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap font-bold  text-base text-gray-900">{{ itemDetail.quantity }}</td>
+              <td class="px-6 py-4 whitespace-nowrap font-bold  text-base text-gray-900">{{ itemDetail.serviceId ?  (itemDetail.service.priceRate | currency):  (itemDetail.product.price | currency) }}</td>
               <td class="px-6 py-4 whitespace-nowrap font-bold  text-base text-gray-900">{{ itemDetail.subtotal | currency }}</td>
-              <td class="px-6 py-4 whitespace-nowrap font-bold text-base text-gray-900">{{ itemDetail.date | date:'dd/MM/yyyy' }}</td>
             </tr>
         }
           </tbody>
