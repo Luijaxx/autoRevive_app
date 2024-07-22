@@ -33,6 +33,9 @@ export class ReservationListByManagerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
+
+  
+
   listByManager(): void {
     if (this.managerId !== null) {
       this.gService

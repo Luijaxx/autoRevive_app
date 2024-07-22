@@ -1,0 +1,80 @@
+<div class=" mt-12 w-full bg-white rounded shadow">
+    <!-- Card Title -->
+    <div class="py-4 border-b p-8 ">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-semibold">Services</h2>
+        </div>
+        <div>
+          <button 
+            class="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-700" 
+            aria-label="Create Service" 
+            title="Create Service"
+            (click)="createService()">
+            <svg class="h-8 w-8 text-slate-100"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="12" y1="5" x2="12" y2="19" />  <line x1="5" y1="12" x2="19" y2="12" /></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="p-8">
+      <hr class="mb-4"/>
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Update</th>
+              
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let row of dataSource.data">
+              <td class="px-6 py-4 whitespace-nowrap">{{ row.name }}</td>
+              <td class="px-6 py-4 whitespace-nowrap">{{ row.priceRate }}</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center space-x-4">
+                  <button 
+                    class="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-700" 
+                    aria-label="Update Service" 
+                    title="Update Service"
+                    (click)="updateService(row.id)">
+                    <svg class="h-6 w-6 text-slate-100"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    
+                  </button>
+                  <button 
+                    class="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-700" 
+                    aria-label="Service Details" 
+                    title="Service Details"
+                    (click)="detailService(row.id)">
+                    <svg class="h-6 w-6 text-slate-100"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="12" cy="12" r="9" />  <line x1="12" y1="8" x2="12" y2="12" />  <line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Paginator -->
+        <div class="py-2 flex justify-between items-center">
+            <div>
+              <span class="text-sm text-gray-700">Showing {{ paginatedData.length }} of {{ dataSource.data.length }}</span>
+            </div>
+            <div class="flex space-x-2">
+              <button 
+                class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" 
+                (click)="previousPage()" 
+                [disabled]="currentPage === 1">Previous</button>
+              <button 
+                class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" 
+                (click)="nextPage()" 
+                [disabled]="currentPage === totalPages">Next</button>
+            </div>
+      </div>
+    </div>
+  </div>
+
+  

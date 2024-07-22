@@ -1,0 +1,122 @@
+<form [formGroup]="scheduleForm" (ngSubmit)="submitSchedule()" novalidate>
+    <input type="hidden" formControlName="id" />
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <div class="border-b pb-4 mb-4">
+        <h2 class="text-2xl font-semibold">{{ titleForm }} Schedule</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-4 mb-4">
+        <div class="mb-4" *ngIf="branchList">
+            <div class="mb-4 inline-block relative w-64" *ngIf="branchList">
+              <label class="block text-gray-700">ServiceType</label>
+              <select
+                placeholder="branchId"
+                formControlName="branchId"
+                class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              >
+                @for (item of branchList; track item.id) {
+      
+                <option [value]="item.id">
+                  {{ item.name }}
+                </option>
+                }
+              </select>
+              <div
+                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+              >
+                <svg
+                  class="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                  />
+                </svg>
+              </div>
+            </div>
+      
+            <div *ngIf="errorHandling('branchId')" class="text-red-500 text-sm">
+              {{ errorHandling("branchId") }}
+            </div>
+          </div>
+  
+        <div>
+          <label class="block text-gray-700">Availability</label>
+          <select
+            formControlName="availability"
+            class="w-full border-gray-300 rounded-lg p-2"
+          >
+            <option value="SCHEDULE">SCHEDULE</option>
+            <option value="BLOCK">BLOCK</option>
+          </select>
+          <div *ngIf="errorHandling('availability')" class="text-red-500 text-sm">
+            {{ errorHandling("availability") }}
+          </div>
+        </div>
+  
+        <div>
+          <label class="block text-gray-700">Start Date and Time</label>
+          <input
+            type="datetime-local"
+            formControlName="startDate"
+            class="w-full border-gray-300 rounded-lg p-2"
+          />
+          <div *ngIf="errorHandling('startDate')" class="text-red-500 text-sm">
+            {{ errorHandling("startDate") }}
+          </div>
+        </div>
+  
+
+        <div>
+
+          <label class="block text-gray-700">End Date and Time</label>
+          <input
+            type="datetime-local"
+            formControlName="endDate"
+            class="w-full border-gray-300 rounded-lg p-2"
+          />
+       
+          <div *ngIf="errorHandling('endDate')" class="text-red-500 text-sm">
+            {{ errorHandling("endDate") }}
+          </div>
+        </div>
+  
+        <div>
+          <label class="block text-gray-700">Description</label>
+          <input
+            type="text"
+            formControlName="description"
+            placeholder="Description"
+            class="w-full border-gray-300 rounded-lg p-2"
+          />
+          <div *ngIf="errorHandling('description')" class="text-red-500 text-sm">
+            {{ errorHandling("description") }}
+          </div>
+        </div>
+      </div>
+  
+      <div class="flex justify-between mt-4">
+        <button
+          type="button"
+          (click)="onReset()"
+          class="bg-red-500 text-white py-2 px-4 rounded-lg"
+        >
+          Reset
+        </button>
+        <button
+          type="button"
+          (click)="onBack()"
+          class="bg-gray-500 text-white py-2 px-4 rounded-lg"
+        >
+          Back
+        </button>
+        <button
+          type="submit"
+          class="bg-green-500 text-white py-2 px-4 rounded-lg"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+  
