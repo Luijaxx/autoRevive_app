@@ -1,0 +1,149 @@
+<div @fadeIn class="p-10 container mx-auto ">
+  <!-- Comboboxes -->
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <h2 class="text-xl font-semibold">Schedules</h2>
+    </div>
+    <div>
+      <div (click)="createSchedule()">
+        <button
+        (click)="createSchedule()"
+  
+          class="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-700"
+          aria-label="Create Schedule"
+          title="Create Schedule"
+        >
+          <svg
+            class="h-8 w-8 text-slate-100"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            
+          >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+        </button></div>
+      
+    </div>
+  </div>
+
+  <div class="mb-4 flex gap-4">
+
+     <!-- Year Selector -->
+     <div class="relative">
+      <label class="block text-gray-700">Select Year</label>
+      <select
+        (change)="onYearChange($event)"
+        class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+      >      
+      <option value="" disabled selected>Select Year</option>
+
+        <option *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </option>
+      </select>
+    </div>
+   
+
+    <!-- Month Selector -->
+    <div class="relative">
+      <label class="block text-gray-700">Select Month</label>
+      <select
+        (change)="onMonthChange($event)"
+        class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+      >
+      <option value="" disabled selected>Select Month</option>
+
+        <option *ngFor="let month of months" [value]="month.value">
+          {{ month.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Branch Selector -->
+    <div class="relative">
+      <label class="block text-gray-700">Select Branch</label>
+      <select
+        (change)="onBranchChange($event)"
+        class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+      >
+        <option value="" disabled selected>Select a branch</option>
+        <option *ngFor="let branch of branchList" [value]="branch.id">
+          {{ branch.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Apply Filter Button -->
+    <button
+    (click)="updateCalendar()"
+    class="bg-green-500 text-white rounded-full mt-5 text-center py-2 px-4 hover:bg-green-700 flex items-center justify-center"
+    aria-label="Apply Filter"
+    title="Apply Filter"
+  >
+    Apply
+  </button>
+  
+  
+  </div>
+
+
+<!-- Calendar Cards -->
+<div class="container mx-auto p-2">
+  <!-- Calendar Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+    <div
+      *ngFor="let item of calendarDays"
+      class="bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col"
+    >
+      <div class="p-2 flex-2">
+        <div class="text-lg font-semibold text-gray-900 mb-2">{{ item.date | date: 'MMMM d, y' }}</div>
+        <div class="text-gray-700">
+          <div *ngFor="let schedule of item.schedules">
+            <div class="my-2">
+              <span class="font-semibold">Start Date:</span>
+              <span>{{ formatDate(schedule.startDate) }}</span>
+            </div>
+            <div class="mb-4">
+              <span class="font-semibold">End Date:</span>
+              <span>{{ formatDate(schedule.endDate) }}</span>
+            </div>
+            <div
+              class="px-4 py-2 text-white text-sm font-medium text-center flex justify-between items-center"
+              [ngStyle]="{
+                'background-color': schedule.availability == 'SCHEDULE' ? '#83e309' : '#ff3b3b',
+                'border-radius': '0 0 0.5rem 0.5rem'
+              }"
+            >
+              <span>{{ schedule.availability == 'SCHEDULE' ? 'SCHEDULE' : 'BLOCK' }}</span>
+             
+              <div class="flex space-x-2">
+
+                <svg (click)="updateSchedule(schedule.id)"  class="h-5 w-5 text-slate-100 rounded-full hover:bg-white"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+                
+                <svg (click)="detail(schedule.id)" class="h-5 w-5 text-slate-100 rounded-full hover:bg-white"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                </svg>
+                
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+</div>
