@@ -51,7 +51,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
             this.scheduleInfo = data;
             this.scheduleForm.patchValue({
               id: this.scheduleInfo.id,
-              branchId: this.scheduleInfo.branchId,
+              branchId: parseInt(this.scheduleInfo.branchId),
               availability: this.scheduleInfo.availability,
               isRepetitive: this.scheduleInfo.isRepetitive,
               startDate: moment(this.scheduleInfo.startDate).format('YYYY-MM-DD'),
@@ -61,6 +61,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
               description: this.scheduleInfo.description
             });
           });
+          console.log(this.branchId)
       }
     });
   }
@@ -223,9 +224,19 @@ onBranchChange(event: Event): void {
     this.branchId = +(event.target as HTMLSelectElement).value;
   }
 
-  // Suponiendo que tienes un método para obtener horarios y bloqueos existentes
-  getExistingSchedulesAndBlocks(): Observable<any[]> {
-    return this.gService.get('schedule/getByBranch', this.branchId).pipe(
+  
+
+
+  getExistingSchedulesAndBlocks(excludeCurrentSchedule: boolean = true): Observable<any[]> {
+    const branchId = this.branchId != null ? this.branchId : this.scheduleForm.value.branchId;
+    return this.gService.get('schedule/getByBranch', branchId).pipe(
+      map((schedules: any[]) => {
+        if (excludeCurrentSchedule && !this.isCreate) {
+          // Excluir el horario actual
+          return schedules.filter(schedule => schedule.id !== this.scheduleForm.value.id);
+        }
+        return schedules;
+      }),
       takeUntil(this.destroy$),
       catchError(error => {
         console.error('Error fetching schedules and blocks', error);
@@ -233,6 +244,8 @@ onBranchChange(event: Event): void {
       })
     );
   }
+  
+
   
 filterSchedulesByMonthYear(schedules: any[]): any[] {
   const startDate = new Date(this.selectedYear, this.selectedMonth, 1);
@@ -249,6 +262,7 @@ filterSchedulesByMonthYear(schedules: any[]): any[] {
     );
   });
 }
+
 validateSchedule(newSchedule: any): Observable<boolean> {
   return this.getExistingSchedulesAndBlocks().pipe(
     map(existing => {
@@ -259,6 +273,9 @@ validateSchedule(newSchedule: any): Observable<boolean> {
           this.isOverlapping(existingSchedule, newSchedule)
         );
       });
+
+
+     
 
       // Validar superposición con bloqueos (si los bloqueos existen)
       const hasBlockOverlap = existing.some(existingBlock => {
@@ -271,16 +288,26 @@ validateSchedule(newSchedule: any): Observable<boolean> {
       // Validar fecha de registro
       const isDateValid = new Date(newSchedule.startDate) >= new Date();
 
+
+      const start = new Date(newSchedule.startDate).getTime();
+      const end = new Date(newSchedule.endDate).getTime();
+      const duration = (end - start) / (1000 * 60 * 60); // Convertir milisegundos a horas
+      const isDurationValid = duration <= 8;
+
       if (hasOverlap) {
-        throw new Error('Superposición de horarios.');
+        throw new Error('Overlap of schedules.');
       }
-
+      
       if (hasBlockOverlap) {
-        throw new Error('Superposición de horarios con bloqueos.');
+        throw new Error('Overlap of schedules with blocks.');
+      }
+      
+      if (!isDateValid) {
+        throw new Error('The start date or time must be current.');
       }
 
-      if (!isDateValid) {
-        throw new Error('La fecha de inicio debe ser vigente.');
+      if (!isDurationValid) {
+        throw new Error('The schedule duration cannot exceed 8 hours.');
       }
 
       return true; // Indica que la validación ha pasado
