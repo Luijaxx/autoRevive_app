@@ -1,157 +1,146 @@
 <form [formGroup]="serviceForm" (ngSubmit)="submitservice()" novalidate>
   <input type="hidden" formControlName="id" />
-  <div class="bg-white shadow-md rounded-lg p-6">
+  <div class="bg-white shadow-lg rounded-lg p-6 max-w-4xl mx-auto">
     <div class="border-b pb-4 mb-4">
-      <h2 class="text-2xl font-semibold">{{ titleForm }} Service</h2>
+      <h2 class="text-2xl font-semibold text-gray-800">{{ titleForm }} Service</h2>
     </div>
     <div class="grid grid-cols-1 gap-4 mb-4">
       <div>
-        <label class="block text-gray-700">Name</label>
+        <label class="block text-gray-700 font-medium">Name</label>
         <input
           type="text"
           formControlName="name"
           maxlength="20"
-          placeholder="name"
-          class="w-full border-gray-300 rounded-lg p-2"
+          placeholder="Name"
+          class="w-full border-gray-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500"
         />
-        <div *ngIf="errorHandling('name')" class="text-red-500 text-sm">
+        <div *ngIf="errorHandling('name')" class="text-red-500 text-sm mt-1">
           {{ errorHandling("name") }}
         </div>
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
       <div>
-        <label class="block text-gray-700">Description</label>
+        <label class="block text-gray-700 font-medium">Description</label>
         <input
           type="text"
           formControlName="description"
           placeholder="Description"
-          class="w-full border-gray-300 rounded-lg p-2"
+          class="w-full border-gray-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500"
         />
-        <div *ngIf="errorHandling('description')" class="text-red-500 text-sm">
+        <div *ngIf="errorHandling('description')" class="text-red-500 text-sm mt-1">
           {{ errorHandling("description") }}
         </div>
       </div>
       <div>
-        <label class="block text-gray-700">Price Rate</label>
+        <label class="block text-gray-700 font-medium">Price Rate</label>
         <input
           type="text"
           formControlName="priceRate"
-          placeholder="priceRate"
-          class="w-full border-gray-300 rounded-lg p-2"
+          placeholder="Price Rate"
+          class="w-full border-gray-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500"
+          (blur)="formatPriceRate()"
         />
-        <div *ngIf="errorHandling('priceRate')" class="text-red-500 text-sm">
+        <div *ngIf="errorHandling('priceRate')" class="text-red-500 text-sm mt-1">
           {{ errorHandling("priceRate") }}
         </div>
       </div>
 
       <div>
-        <label class="block text-gray-700">Service Time</label>
+        <label class="block text-gray-700 font-medium">Service Time (minutes)</label>
         <input
           type="number"
           formControlName="serviceTime"
           placeholder="Minutes of Service Time"
-          class="w-full border-gray-300 rounded-lg p-2"
+          class="w-full border-gray-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500"
         />
-        <div *ngIf="errorHandling('serviceTime')" class="text-red-500 text-sm">
+        <div *ngIf="errorHandling('serviceTime')" class="text-red-500 text-sm mt-1">
           {{ errorHandling("serviceTime") }}
         </div>
       </div>
 
       <div>
-        <label class="block text-gray-700">Warranty</label>
+        <label class="block text-gray-700 font-medium">Warranty (months)</label>
         <input
           type="number"
           formControlName="warranty"
-          placeholder="Months of warranty"
-          class="w-full border-gray-300 rounded-lg p-2"
+          placeholder="Months of Warranty"
+          class="w-full border-gray-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500"
         />
-        <div *ngIf="errorHandling('warranty')" class="text-red-500 text-sm">
+        <div *ngIf="errorHandling('warranty')" class="text-red-500 text-sm mt-1">
           {{ errorHandling("warranty") }}
         </div>
       </div>
     </div>
 
     <div class="mb-4" *ngIf="serviceTypeList">
-      <div class="mb-4 inline-block relative w-64" *ngIf="serviceTypeList">
-        <label class="block text-gray-700">ServiceType</label>
+      <label class="block text-gray-700 font-medium">Service Type</label>
+      <div class="relative">
         <select
-          placeholder="serviceTypeId"
+          placeholder="Service Type"
           formControlName="serviceTypeId"
-          class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          class="block appearance-none w-full bg-white border border-gray-300 rounded-lg px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-500"
         >
           @for (item of serviceTypeList; track item.id) {
-
-          <option [value]="item.id">
-            {{ item.name }}
-          </option>
+            <option [value]="item.id">
+              {{ item.name }}
+            </option>
           }
         </select>
-        <div
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-        >
-          <svg
-            class="fill-current h-4 w-4"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path
-              d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-            />
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700">
+          <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
           </svg>
         </div>
       </div>
-
-      <div *ngIf="errorHandling('serviceTypeId')" class="text-red-500 text-sm">
+      <div *ngIf="errorHandling('serviceTypeId')" class="text-red-500 text-sm mt-1">
         {{ errorHandling("serviceTypeId") }}
       </div>
     </div>
 
-   
     <div class="mb-4">
-        <label class="block text-gray-700">Image URL</label>
-        <input
-          type="text"
-          formControlName="imageUrl"
-          placeholder="Enter image URL"
-          class="w-full border-gray-300 rounded-lg p-2"
-        />
-        <div *ngIf="errorHandling('imageUrl')" class="text-red-500 text-sm">
-          {{ errorHandling('imageUrl') }}
-        </div>
+      <label class="block text-gray-700 font-medium">Image URL</label>
+      <input
+        type="text"
+        formControlName="imageUrl"
+        placeholder="Enter Image URL"
+        class="w-full border-gray-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500"
+      />
+      <div *ngIf="errorHandling('imageUrl')" class="text-red-500 text-sm mt-1">
+        {{ errorHandling('imageUrl') }}
       </div>
-      
-      <div class="mb-4">
-        <label class="block text-gray-700">Preview</label>
-        <img
-          [src]="serviceForm.get('imageUrl').value "
-          alt="Image preview"
-          class="w-full h-auto border rounded-lg"
-          style="max-width: 400px; max-height: 400px;"
-
-        />
-      </div>
-      
-    <div class="flex justify-between mt-4">
+    </div>
+    
+    <div class="mb-4">
+      <label class="block text-gray-700 font-medium">Preview</label>
+      <img
+        [src]="serviceForm.get('imageUrl').value"
+        alt="Image Preview"
+        class="w-full h-auto border border-gray-300 rounded-lg shadow-sm"
+        style="max-width: 400px; max-height: 400px;"
+      />
+    </div>
+    
+    <div class="flex justify-end space-x-4 mt-6">
       <button
         type="button"
         (click)="onReset()"
-        class="bg-red-500 text-white py-2 px-4 rounded-lg"
+        class="bg-red-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
       >
         Reset
       </button>
       <button
         type="button"
         (click)="onBack()"
-        class="bg-gray-500 text-white py-2 px-4 rounded-lg"
+        class="bg-gray-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
       >
-        Regresar
+        Back
       </button>
       <button
         type="submit"
-        class="bg-green-500 text-white py-2 px-4 rounded-lg"
+        class="bg-green-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
       >
-        Guardar
+        Save
       </button>
     </div>
   </div>

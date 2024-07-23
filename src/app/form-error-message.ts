@@ -7,23 +7,26 @@ export class ErrorMessage {
   }
 //Mensajes de errores de validación
 export const FormErrorMessage = [
-  new ErrorMessage('name', 'required', 'El Nombre es requerido'),
-  new ErrorMessage('name', 'minlength', 'El nombre debe tener 3 carácteres mínimo'),
-  new ErrorMessage('description', 'required', 'La descripción es requerida'),
-  new ErrorMessage('imageUrl', 'required', 'La url de la imagen es requerida'),
+  new ErrorMessage('name', 'required', 'Name is required'),
+  new ErrorMessage('name', 'minlength', 'Name must be at least 3 characters long'),
+  new ErrorMessage('description', 'required', 'Description is required'),
+  new ErrorMessage('imageUrl', 'required', 'Image URL is required'),
+  
+  new ErrorMessage('priceRate', 'required', 'Price is required'),
+  new ErrorMessage('serviceTime', 'required', 'Service time is required'),
+  new ErrorMessage('priceRate', 'pattern', 'Price only accepts numbers with two decimals'),
+  new ErrorMessage('warranty', 'required', 'Warranty is required'),
+  new ErrorMessage('serviceTypeId', 'required', 'Service type is required'),
+  new ErrorMessage('email', 'required', 'Email is required'),
+  new ErrorMessage('password', 'required', 'Password is required'),
+  
+  new ErrorMessage('branchId', 'required', 'Branch selection is required'),
+  new ErrorMessage('availability', 'required', 'Availability is required'),
+  new ErrorMessage('startDate', 'required', 'Start date is required'),
+  new ErrorMessage('endDate', 'required', 'End date is required'),
+  new ErrorMessage('startTime', 'required', 'Start Time is required'),
+  new ErrorMessage('endTime', 'required', 'End Time is required'),
 
-  new ErrorMessage('priceRate', 'required', 'El precio es requerido'),
-  new ErrorMessage('serviceTime', 'required', 'El precio es requerido'),
-  new ErrorMessage('priceRate', 'pattern', 'El precio solo acepta números con dos decimales'),
-  new ErrorMessage('warranty', 'required', 'warranty es requerido'),
-  new ErrorMessage('serviceTypeId', 'required', 'Es requerido que seleccione un género'),
-  new ErrorMessage('email', 'required', 'El email es requerido'),
-  new ErrorMessage('password', 'required', 'Es password es requerido'),
-
-  new ErrorMessage('branchId', 'required', 'Es requerido que seleccione un género'),
-  new ErrorMessage('availability', 'required', 'La descripción es requerida'),
-  new ErrorMessage('startDate', 'required', 'La descripción es requerida'),
-  new ErrorMessage('endDate', 'required', 'La descripción es requerida'),
 
 
 ];

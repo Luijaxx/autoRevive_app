@@ -23,10 +23,10 @@
             >{{ data?.description }}</a
           >
           <p class="mt-2 text-slate-500">
-            Compatibility: {{ data?.compatibility }}
+            Service Type: {{ data?.serviceType?.name }}
           </p>
-          <p class="mt-2 text-slate-500">{{ data?.category?.name }}</p>
-          <p class="mt-2 text-slate-500">{{ data?.price | currency }}</p>
+          <p class="mt-2 text-slate-500">{{ data?.priceRate | currency }}</p>
+          <p class="mt-2 text-slate-500">Service Time: {{ data?.serviceTime }} mins</p>
           <p class="mt-2 text-slate-500">{{ data?.warranty }} months warranty</p>
         </div>
       </div>

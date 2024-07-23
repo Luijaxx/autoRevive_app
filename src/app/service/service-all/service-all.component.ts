@@ -82,7 +82,7 @@ export class ServiceAllComponent implements AfterViewInit {
       });
   }
   detailService(id:number){
-    this.router.navigate(['/service',id])
+    this.router.navigate(['/service/detailForm/',id])
 
   }
   updateService(id: number) {

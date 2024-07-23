@@ -36,7 +36,7 @@ export class ServiceFormComponent implements OnInit {
   ngOnInit(): void {
     this.activeRouter.params.subscribe((params: Params) => {
       this.idService = params['id'];
-      if (this.idService != undefined) {
+      if (this.idService !== undefined) {
         this.isCreate = false;
         this.titleForm = 'Update';
         this.gService
@@ -44,6 +44,10 @@ export class ServiceFormComponent implements OnInit {
           .pipe(takeUntil(this.destroy$))
           .subscribe((data: any) => {
             this.serviceInfo = data;
+  
+            // Format the priceRate to ensure it has .00
+            this.serviceInfo.priceRate = this.formatPriceRateValue(this.serviceInfo.priceRate);
+  
             this.serviceForm.patchValue({
               id: this.serviceInfo.id,
               name: this.serviceInfo.name,
@@ -54,11 +58,20 @@ export class ServiceFormComponent implements OnInit {
               warranty: this.serviceInfo.warranty,
               serviceTypeId: this.serviceInfo.serviceTypeId
             });
-            console.log(this.serviceForm.value)
+  
+            console.log(this.serviceForm.value);
           });
       }
     });
   }
+  
+  formatPriceRateValue(value: any): string {
+    if (value && !isNaN(value)) {
+      value = parseFloat(value).toFixed(2);
+    }
+    return value;
+  }
+  
 
   formularioReactive() {
     let number2decimals = /^[0-9]+[.,]{1,1}[0-9]{2,2}$/;
@@ -141,8 +154,8 @@ export class ServiceFormComponent implements OnInit {
         .subscribe((data: any) => {
           this.respService = data;
           this.noti.mensajeRedirect(
-            'Crear service',
-            `service creado: ${data.name}`,
+            'Create Service',
+            `Service Created: ${data.name}`,
             TipoMessage.success,
             'service-table'
           );
@@ -156,8 +169,8 @@ export class ServiceFormComponent implements OnInit {
         .subscribe((data: any) => {
           this.respService = data;
           this.noti.mensajeRedirect(
-            'Actualizar service',
-            `service actualizado: ${data.name}`,
+            'Update Service',
+            `Service Updated: ${data.name}`,
             TipoMessage.success,
             'service-table'
           );
@@ -177,5 +190,25 @@ export class ServiceFormComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  formatPriceRate() {
+    const priceRateControl = this.serviceForm.get('priceRate');
+    if (priceRateControl) {
+      let value = priceRateControl.value;
+      if (value && !isNaN(value)) {
+        if (!value.includes('.')) {
+          value += '.00';
+        } else {
+          const parts = value.split('.');
+          if (parts[1].length === 1) {
+            value += '0';
+          } else if (parts[1].length === 0) {
+            value += '00';
+          }
+        }
+        priceRateControl.setValue(value);
+      }
+    }
   }
 }

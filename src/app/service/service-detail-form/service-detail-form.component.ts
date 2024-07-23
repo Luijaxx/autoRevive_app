@@ -6,8 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-service-detail',
-  templateUrl: './service-detail.component.html',
-  styleUrl: './service-detail.component.css',
+  templateUrl: './service-detail-form.component.html',
+  styleUrl: './service-detail-form.component.css',
   animations: [
     trigger('fadeIn', [
       state('void', style({
