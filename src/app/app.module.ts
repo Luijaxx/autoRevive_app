@@ -11,29 +11,37 @@ import { BillingModule } from './billing/billing.module';
 import { ProductModule } from './product/product.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceModule } from './service/service.module';
+import { ToastrModule } from 'ngx-toastr';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ScheduleModule } from './schedule/schedule.module';
+import { DatePipe } from '@angular/common';
+import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   // TO DO modules [all in bd]
   imports: [
-    //module order 
+    //module order
     BrowserAnimationsModule,
     BrowserModule,
-    HttpClientModule, 
+    HttpClientModule,
+    ToastrModule.forRoot(),
+    
     CoreModule,
     ShareModule,
     HomeModule,
     UserModule,
-    // router manager
     BillingModule,
     ProductModule,
     ReservationModule,
-    AppRoutingModule,
+    ServiceModule,
 
+    AppRoutingModule,
+    CalendarModule,
+    ScheduleModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [provideAnimationsAsync(), DatePipe],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

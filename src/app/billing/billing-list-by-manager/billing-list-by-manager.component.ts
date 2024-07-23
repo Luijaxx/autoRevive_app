@@ -25,25 +25,24 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class BillingListByManagerComponent implements OnInit, OnDestroy {
   data: any[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
-  managerId: number | null = null;
+ // managerId: number | null = null;
 
   constructor(private gService: GenericService,private router: Router) {
-    this.managerId = 2;
-    this.listByManager();
+   // this.managerId = 2;
+    this.listInvoices();
   }
 
   ngOnInit(): void {}
 
-  listByManager(): void {
-    if (this.managerId !== null) {
+  listInvoices(): void {
       this.gService
-        .get('invoice/listByManager', this.managerId)
+        .list('invoice/')
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: any[]) => {
           console.log(data);
           this.data = data;
         });
-    }
+    
   }
 
   detail(id:number){
