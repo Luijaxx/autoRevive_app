@@ -27,7 +27,6 @@ import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
     BrowserModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    
     CoreModule,
     ShareModule,
     HomeModule,
@@ -36,7 +35,6 @@ import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
     ProductModule,
     ReservationModule,
     ServiceModule,
-
     AppRoutingModule,
     CalendarModule,
     ScheduleModule,
