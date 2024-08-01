@@ -17,6 +17,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ScheduleModule } from './schedule/schedule.module';
 import { DatePipe } from '@angular/common';
 import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
+import { BranchModule } from './branch/branch.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,15 +32,18 @@ import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
     CoreModule,
     ShareModule,
     HomeModule,
+    ProductModule,
     UserModule,
     BillingModule,
-    ProductModule,
     ReservationModule,
     ServiceModule,
 
     AppRoutingModule,
     CalendarModule,
     ScheduleModule,
+    BranchModule,
+
+
   ],
   providers: [provideAnimationsAsync(), DatePipe],
   bootstrap: [AppComponent],

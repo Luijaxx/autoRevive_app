@@ -1,0 +1,60 @@
+<div *ngIf="branch" class="bg-white shadow-lg rounded-lg p-6 max-w-4xl mx-auto">
+    <div class="border-b pb-4 mb-6">
+      <h2 class="text-3xl font-bold text-gray-900">Branch Details</h2>
+    </div>
+    <div class="space-y-6">
+      <!-- Branch Name -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Branch Name</label>
+        <p class="text-gray-900">{{ branch.name ?? 'N/A' }}</p>
+      </div>
+  
+      <!-- Description -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Description</label>
+        <p class="text-gray-900">{{ branch.description ?? 'N/A' }}</p>
+      </div>
+  
+      <!-- Phone Number -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Phone Number</label>
+        <p class="text-gray-900">{{ branch.phoneNumber ?? 'N/A' }}</p>
+      </div>
+  
+      <!-- Exact Address -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Exact Address</label>
+        <p class="text-gray-900">{{ branch.exactAddress ?? 'N/A' }}</p>
+      </div>
+  
+      <!-- Email -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Email</label>
+        <p class="text-gray-900">{{ branch.email ?? 'N/A' }}</p>
+      </div>
+  
+      <!-- Users -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Users</label>
+        <ul class="list-disc pl-5">
+          <li *ngFor="let user of branch.users" class="text-gray-900">{{ user.name ?? 'N/A' }} ({{ user.email ?? 'N/A' }})</li>
+        </ul>
+      </div>
+    </div>
+  
+    <div class="flex justify-between mt-6 space-x-4">
+      <button
+        type="button"
+        (click)="onBack()"
+        class="bg-gray-500 text-white py-2 px-4 rounded-lg shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-150 ease-in-out"
+      >
+        Back
+      </button>
+    </div>
+  </div>
+  
+  <!-- Loading State -->
+  <div *ngIf="!branch" class="text-center p-6">
+    <p class="text-gray-500">Loading branch details...</p>
+  </div>
+  

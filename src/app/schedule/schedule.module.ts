@@ -6,12 +6,14 @@ import { ScheduleFormComponent } from './schedule-form/schedule-form.component';
 import { ScheduleIndexComponent } from './schedule-index/schedule-index.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
+import { ScheduleDetailComponent } from './schedule-detail/schedule-detail.component';
 
 
 @NgModule({
   declarations: [
     ScheduleFormComponent,
-    ScheduleIndexComponent
+    ScheduleIndexComponent,
+    ScheduleDetailComponent
   ],
   imports: [
     CommonModule,

@@ -45,10 +45,20 @@
               Name
             </th>
             <th
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Warranty
+          </th>
+            <th
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               Price
             </th>
+            <th
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Service Type
+          </th>
             <th
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
@@ -59,7 +69,11 @@
         <tbody class="bg-white divide-y divide-gray-200">
           <tr *ngFor="let row of dataSource.data">
             <td class="px-6 py-4 whitespace-nowrap">{{ row.name }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ row.warranty}} - months</td>
+
             <td class="px-6 py-4 whitespace-nowrap">{{ row.priceRate }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ row.serviceType.name }}</td>
+
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex items-center space-x-4">
                 <button
