@@ -1,12 +1,12 @@
-<header class="bg-white">
-  <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-    <div class="flex lg:flex-1">
+<header class="bg-white ">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 " aria-label="Global">
+    <div class="flex lg:flex-1 mr-5">
       <a href="#" class="-m-1.5 p-1.5">
         <span class="sr-only">AutoRevive</span>
-        <img class="h-20 w-20" src="../../../assets/images/logo.png" alt="">
+        <img class="h-30 w-20" src="../../../assets/images/logo.png" alt="">
       </a>
     </div>
-    <div class="flex lg:hidden">
+    <div class="flex lg:hidden ">
       <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
         <span class="sr-only">Open main menu</span>
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -22,6 +22,7 @@
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
           </svg>
         </button>
+        @if(openDropdowns['product']) {
         <div class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5" [@dropdownAnimation]="openDropdowns['product'] ? 'open' : 'closed'">
           <div class="p-4">
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
@@ -31,13 +32,16 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
                 </svg>
               </div>
-              <div class="flex-auto">
-                <a [routerLink]="['/product']" (click)="closeDropdown('product')" class="block font-semibold text-gray-900">
-                  Products
-                  <span class="absolute inset-0"></span>
-                </a>
-                <p class="mt-1 text-gray-600">Get a better understanding of your traffic</p>
-              </div>
+              
+                <div class="flex-auto">
+                  <a [routerLink]="['/product']" (click)="closeDropdown('product')" class="block font-semibold text-gray-900">
+                    Products
+                    <span class="absolute inset-0"></span>
+                  </a>
+                  <p class="mt-1 text-gray-600">Get a better understanding of your traffic</p>
+                </div>
+              
+              
             </div>
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
@@ -56,7 +60,7 @@
             </div>
           </div>
         </div>
-
+      }
 
         
       </div>
@@ -72,6 +76,7 @@
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
           </svg>
         </button>
+        @if(openDropdowns['service']) {
         <div class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5" [@dropdownAnimation]="openDropdowns['service'] ? 'open' : 'closed'">
           <div class="p-4">
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
@@ -91,6 +96,7 @@
             </div>
           </div>
         </div>
+      }
       </div>
 
 
@@ -102,6 +108,7 @@
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
           </svg>
         </button>
+        @if(openDropdowns['branch']) {
         <div class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5" [@dropdownAnimation]="openDropdowns['branch'] ? 'open' : 'closed'">
           <div class="p-4">
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
@@ -121,6 +128,7 @@
             </div>
           </div>
         </div>
+      }
       </div>
       <div class="relative mx-8">
         <button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" (click)="toggleDropdown('billing')" aria-expanded="openDropdowns['billing']">
@@ -129,6 +137,7 @@
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
           </svg>
         </button>
+        @if(openDropdowns['billing']) {
         <div class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5" [@dropdownAnimation]="openDropdowns['billing'] ? 'open' : 'closed'">
           <div class="p-4">
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
@@ -149,6 +158,7 @@
             
           </div>
         </div>
+      }
       </div>
 
       <div class="relative mx-8" >
@@ -158,6 +168,7 @@
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
           </svg>
         </button>
+        @if(openDropdowns['reservations']) {
         <div class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5" [@dropdownAnimation]="openDropdowns['reservations'] ? 'open' : 'closed'">
           <div class="p-4">
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
@@ -192,6 +203,7 @@
             </div>
           </div>
         </div>
+      }
       </div>
 
 
@@ -203,6 +215,7 @@
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
           </svg>
         </button>
+        @if(openDropdowns['schedule']) {
         <div class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5" [@dropdownAnimation]="openDropdowns['schedule'] ? 'open' : 'closed'">
           <div class="p-4">
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
@@ -222,11 +235,19 @@
             </div>
           </div>
         </div>
+      }
       </div>
 
     </div>
-    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-      <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
-    </div>
+    @if(!isAuthenticated) {
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end ">
+        <a  [routerLink]="['user']" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    } @else {
+
+        <a (click)="logout()" class="text-sm font-semibold leading-6 text-gray-900">Log out <span aria-hidden="true">&rarr;</span></a>
+
+    }
+    
   </nav>
 </header>
