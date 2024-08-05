@@ -6,13 +6,15 @@ import { ReservationRoutingModule } from './reservation-routing.module';
 import { ReservationIndexComponent } from './reservation-index/reservation-index.component';
 import { ReservationListByManagerComponent } from './reservation-list-by-manager/reservation-list-by-manager.component';
 import { ReservationDetailComponent } from './reservation-detail/reservation-detail.component';
+import { ReservationListByManagerFilteredComponent } from './reservation-list-by-manager-filtered/reservation-list-by-manager-filtered.component';
 
 
 @NgModule({
   declarations: [
     ReservationIndexComponent,
     ReservationListByManagerComponent,
-    ReservationDetailComponent
+    ReservationDetailComponent,
+    ReservationListByManagerFilteredComponent
   ],
   imports: [
     CommonModule,
