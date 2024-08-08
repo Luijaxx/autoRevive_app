@@ -1,20 +1,22 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from '../../share/generic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { AuthenticationService } from '../../share/authentication.service';
+import moment from 'moment';
 
 interface CalendarDay {
   date: Date;
   schedules: any[];
+  reservations: any[];
 }
-
 
 @Component({
   selector: 'app-reservation-list-by-manager-filtered',
   templateUrl: './reservation-list-by-manager-filtered.component.html',
-  styleUrl: './reservation-list-by-manager-filtered.component.css',
+  styleUrls: ['./reservation-list-by-manager-filtered.component.css'],
   animations: [
     trigger('fadeIn', [
       state('void', style({ opacity: 0 })),
@@ -25,13 +27,19 @@ interface CalendarDay {
   ]
 })
 export class ReservationListByManagerFilteredComponent implements OnInit, OnDestroy {
-  data: any;
+  authService: AuthenticationService = inject(AuthenticationService);
+  auth: boolean = false;
+  dataSchedule: any;
+  dataReservations: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
   branchId: number | null = null;
+  currentUser: any;
   branchList: any;
+  todayStartDate:any;
   calendarDays: CalendarDay[] = [];
   selectedMonth: number = new Date().getMonth();
   selectedYear: number = new Date().getFullYear();
+  clientNameFilter: string = ''; 
   months = [
     { name: 'January', value: 0 },
     { name: 'February', value: 1 },
@@ -56,26 +64,30 @@ export class ReservationListByManagerFilteredComponent implements OnInit, OnDest
   ) {
     this.listBranch();
     this.generateYearOptions();
+    this.authService.decodeToken.subscribe((user) => (this.currentUser = user));
+    this.authService.isAuthenticated.subscribe((valor) => (this.auth = valor));
+    this.todayStartDate = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
+
   }
 
   ngOnInit(): void {
     this.updateCalendar();
+    this.authService.isAuthenticated.subscribe((valor) => {
+      this.auth = valor;
+    });
+    this.authService.decodeToken.subscribe((user: any) => {
+      this.currentUser = user;
+    });
   }
 
   listBranch() {
     this.branchList = null;
-    this.gService
-      .list('branch')
+    this.gService.list('branch')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         console.log('Branch List:', data);
         this.branchList = data;
       });
-  }
-
-  onBranchChange(event: Event): void {
-    this.branchId = +(event.target as HTMLSelectElement).value;
-    this.updateCalendar();
   }
 
   onMonthChange(event: Event): void {
@@ -88,57 +100,84 @@ export class ReservationListByManagerFilteredComponent implements OnInit, OnDest
     this.updateCalendar();
   }
 
+  onClientNameChange(event: Event): void {
+    this.clientNameFilter = (event.target as HTMLInputElement).value.toLowerCase();
+    this.updateCalendar();
+  }
+
   listScheduleWithReservationsByBranch() {
-    if (this.branchId !== null) {
-      this.gService
-        .get('schedule/getByBranch', this.branchId)
+    if (this.auth) {
+      this.gService.get('schedule/getByBranch', this.currentUser.branchId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: any[]) => {
+          console.log('Schedules from server:', data);
+          this.dataSchedule = this.filterSchedulesByMonthYear(data);
+          this.generateCalendar();
+        });
+
+      this.gService.get('reservation/listByManager', this.currentUser.id)
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: any[]) => {
           console.log('Reservations from server:', data);
-          this.data = this.filterSchedulesByMonthYear(data);
+          this.dataReservations = this.filterSchedulesByMonthYear(data);
           this.generateCalendar();
         });
     }
   }
-  
 
   filterSchedulesByMonthYear(schedules: any[]): any[] {
     const startDate = new Date(this.selectedYear, this.selectedMonth, 1);
     const endDate = new Date(this.selectedYear, this.selectedMonth + 1, 0);
-    endDate.setHours(23, 59, 59, 999);  
+    endDate.setHours(23, 59, 59, 999);
     console.log('Filtering reservations between:', startDate, 'and', endDate);
-  
+
     return schedules.filter((schedule: any) => {
-      const scheduleStartDate = new Date(schedule.startDate);
-      console.log('Checking schedule date:', scheduleStartDate);
-      return (
-        scheduleStartDate >= startDate &&
-        scheduleStartDate <= endDate
-      );
+      if (schedule.startDate != null) {
+        const scheduleStartDate = new Date(schedule.startDate);
+        console.log('Checking schedule date:', scheduleStartDate);
+        return scheduleStartDate >= startDate && scheduleStartDate <= endDate;
+      } else {
+        const scheduleStartDate = new Date(schedule.date);
+        console.log('Checking schedule date:', scheduleStartDate);
+        return scheduleStartDate >= startDate && scheduleStartDate <= endDate;
+      }
     });
   }
-  
-generateCalendar() {
-  const start = new Date(this.selectedYear, this.selectedMonth, 1);
-  const end = new Date(this.selectedYear, this.selectedMonth + 1, 0);
 
-  const daysInMonth = end.getDate();
-  this.calendarDays = [];
+  generateCalendar() {
+    const start = new Date(this.selectedYear, this.selectedMonth, 1);
+    const end = new Date(this.selectedYear, this.selectedMonth + 1, 0);
+    const daysInMonth = end.getDate();
+    this.calendarDays = [];
 
-  console.log('Generating calendar for:', start, 'to', end);
+    console.log('Generating calendar for:', start, 'to', end);
 
-  for (let i = 1; i <= daysInMonth; i++) {
-    const date = new Date(this.selectedYear, this.selectedMonth, i);
-    const schedules = this.data
-      ? this.data.filter(
-          (schedule: any) => new Date(schedule.startDate).getDate() === i
-        )
-      : [];
-    console.log('Date:', date, 'Schedules:', schedules);
-    this.calendarDays.push({ date, schedules });
+    for (let i = 1; i <= daysInMonth; i++) {
+      const date = new Date(this.selectedYear, this.selectedMonth, i);
+      const schedules = this.dataSchedule
+        ? this.dataSchedule.filter(
+            (schedule: any) => new Date(schedule.startDate).getDate() === i
+          )
+        : [];
+      const reservations = this.dataReservations
+        ? this.dataReservations
+            .filter(
+              (reservation: any) => new Date(reservation.date).getDate() === i
+            )
+            .filter((reservation: any) =>
+              reservation.client.name.toLowerCase().includes(this.clientNameFilter)
+            )
+        : [];
+
+      console.log('Date:', date, 'Schedules:', schedules, 'Reservations:', reservations);
+      this.calendarDays.push({ date, schedules, reservations });
+    }
   }
-}
 
+  isScheduleValid(startDate: string): boolean {
+    // Comprobar si startDate es mayor o igual a hoy a las 00:00
+    return moment(startDate).isSameOrAfter(this.todayStartDate);
+  }
 
   generateYearOptions() {
     const currentYear = new Date().getFullYear();
@@ -159,17 +198,17 @@ generateCalendar() {
     this.router.navigate(['/reservation', id]);
   }
 
-  createSchedule() {
-    this.router.navigate(['/reservation/create'], {
+
+
+
+  createReservation(selectedDate: Date) {
+    this.router.navigate(['/reservation/create', selectedDate], {
       relativeTo: this.route,
     });
   }
-
-
 
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 }
-

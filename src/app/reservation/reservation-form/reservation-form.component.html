@@ -1,0 +1,198 @@
+<form   @fadeIn class="mt-8" [formGroup]="reservationForm" (ngSubmit)="submitSchedule()" novalidate>
+    <input type="hidden" formControlName="id" />
+    <div class="bg-white shadow-lg rounded-lg p-6 max-w-4xl mx-auto">
+      <div class="border-b pb-4 mb-6">
+        <h2 class="text-3xl font-bold text-gray-900">{{ titleForm }} Reservation</h2>
+      </div>
+      <div class="space-y-6">
+   <!-- Branch Selection -->
+<div *ngIf="branchList" class="relative">
+    <label class="block text-gray-700 font-medium mb-2">Branch</label>
+    <select
+      formControlName="branchId"
+      class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out"
+        
+    >
+      <option value="" disabled>Select a branch</option>
+      <option *ngFor="let item of branchList" [value]="item.id">
+        {{ item.name }}
+      </option>
+    </select>
+    <div *ngIf="errorHandling('branchId')" class="text-red-500 text-sm mt-1">
+      {{ errorHandling("branchId") }}
+    </div>
+  </div>
+  
+  
+     <!-- New Client Name Filter -->
+     <div class="relative">
+        <label class="block text-gray-700">Filter by Client Name</label>
+        <input
+        formControlName="clientId"
+          type="text"
+          (input)="onClientNameChange($event)"
+          class="block w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Enter client name"
+          
+        />
+        <div *ngIf="errorHandling('clientId')" class="text-red-500 text-sm mt-1">
+            {{ errorHandling("clientId") }}
+          </div>
+      </div>
+
+   <!-- Client Selection -->
+   <div  @fadeIn *ngIf="clientList" class="relative">
+    <label class="block text-gray-700 font-medium mb-2">Client</label>
+    <select
+      formControlName="clientId"
+      class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out"
+        
+    >
+      <option value="" disabled>Select a Client</option>
+      <option *ngFor="let item of clientList" [value]="item.id">
+        {{ item.name }}
+      </option>
+    </select>
+    <div *ngIf="errorHandling('clientId')" class="text-red-500 text-sm mt-1">
+      {{ errorHandling("clientId") }}
+    </div>
+  </div>
+
+    <!-- New Service Name Filter -->
+    <div class="relative">
+        <label class="block text-gray-700">Filter by Service Name</label>
+        <input
+        formControlName="serviceId"
+
+          type="text"
+          (input)="onServiceNameChange($event)"
+          class="block w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Enter service name"
+        />
+        <div *ngIf="errorHandling('serviceId')" class="text-red-500 text-sm mt-1">
+            {{ errorHandling("serviceId") }}
+          </div>
+      </div>
+
+
+     <!-- Service Selection -->
+     <div @fadeIn *ngIf="serviceList" class="relative">
+        <label class="block text-gray-700 font-medium mb-2">Service</label>
+        <select
+          formControlName="serviceId"
+          class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out"
+          (change)="getAvailableTimeSlotsForBranch($event)"
+        >
+          <option value="" disabled>Select a Service</option>
+          <option *ngFor="let item of serviceList" [value]="item.id">
+            {{ item.name }}
+          </option>
+        </select>
+        <div *ngIf="errorHandling('serviceId')" class="text-red-500 text-sm mt-1">
+          {{ errorHandling('serviceId') }}
+        </div>
+      </div>
+      
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Date</label>
+        <div class="flex gap-4">
+          <input
+            type="date"
+            formControlName="date"
+            class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out"
+            required
+          />
+       
+        </div>
+        <div *ngIf="errorHandling('date')" class="text-red-500 text-sm mt-1">
+          {{ errorHandling("date") }}
+        </div>
+      </div>
+  <div *ngIf="availableTimeSlots" class="relative">
+    <label class="block text-gray-700 font-medium mb-2">Available Time Slots</label>
+    <select
+      formControlName="availableTimeSlots"
+      class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out"
+    >
+      <option value="" disabled>Select a time slot</option>
+      <option *ngFor="let slot of availableTimeSlots" [value]="slot.startTime + '-' + slot.endTime">
+        {{ slot.startTime }} - {{ slot.endTime }}
+      </option>
+    </select>
+    <div *ngIf="errorHandling('availableTimeSlots')" class="text-red-500 text-sm mt-1">
+      {{ errorHandling("availableTimeSlots") }}
+    </div>
+  </div>
+  
+
+  <div class="mb-6">
+    <label class="block text-gray-700 text-lg font-semibold mb-2">Would you prefer to wait in the waiting room while we perform the service?</label>
+    <div class="flex items-center space-x-4">
+      <label class="flex items-center space-x-2">
+        <input 
+          type="checkbox" 
+          name="answer1" 
+          formControlName="answer1" 
+          class="form-checkbox h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500 rounded" 
+        />
+      </label>
+    </div>
+  </div>
+  
+  <div class="mb-6">
+    <label class="block text-gray-700 text-lg font-semibold mb-2">Need a drink or snack while you wait?</label>
+    <div class="flex items-center space-x-4">
+      <label class="flex items-center space-x-2">
+        <input 
+          type="checkbox" 
+          name="answer2" 
+          formControlName="answer2" 
+          class="form-checkbox h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500 rounded" 
+        />
+      </label>
+    </div>
+  </div>
+  
+  <div class="mb-6">
+    <label class="block text-gray-700 text-lg font-semibold mb-2">Are you interested in receiving regular updates on the progress of the service?</label>
+    <div class="flex items-center space-x-4">
+      <label class="flex items-center space-x-2">
+        <input 
+          type="checkbox" 
+          name="answer3" 
+          formControlName="answer3" 
+          class="form-checkbox h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500 rounded" 
+        />
+      </label>
+    </div>
+  </div>
+  
+       
+      </div>
+  
+      <div class="flex justify-between mt-6 space-x-4">
+        <button
+          type="button"
+          (click)="onReset()"
+          class="bg-red-500 text-white py-2 px-4 rounded-lg shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-150 ease-in-out"
+        >
+          Reset
+        </button>
+        <button
+          type="button"
+          (click)="onBack()"
+          class="bg-gray-500 text-white py-2 px-4 rounded-lg shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-150 ease-in-out"
+        >
+          Back
+        </button>
+        <button
+          type="submit"
+          class="bg-green-500 text-white py-2 px-4 rounded-lg shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+  

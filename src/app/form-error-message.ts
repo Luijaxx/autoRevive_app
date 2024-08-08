@@ -23,9 +23,15 @@ export const FormErrorMessage = [
   new ErrorMessage('email', 'required', 'Email is required'),
   new ErrorMessage('password', 'required', 'Password is required'),
   new ErrorMessage('categoryId', 'required', 'Category is required'),
+  new ErrorMessage('clientId', 'required', 'Client is required'),
+  new ErrorMessage('description', 'required', 'Description is required'),
+  new ErrorMessage('availableTimeSlots', 'required', 'AvailableTimeSlots is required'),
+
+  new ErrorMessage('serviceId', 'required', 'Service is required'),
 
   new ErrorMessage('branchId', 'required', 'Branch selection is required'),
   new ErrorMessage('availability', 'required', 'Availability is required'),
+  new ErrorMessage('date', 'required', 'date is required'),
   new ErrorMessage('startDate', 'required', 'Start date is required'),
   new ErrorMessage('endDate', 'required', 'End date is required'),
   new ErrorMessage('startTime', 'required', 'Start Time is required'),
