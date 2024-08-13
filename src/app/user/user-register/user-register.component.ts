@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -16,7 +15,7 @@ import { DateTimePicker } from '@syncfusion/ej2-angular-calendars';
 @Component({
   selector: 'app-user-register',
   templateUrl: './user-register.component.html',
-  styleUrl: './user-register.component.css'
+  styleUrl: './user-register.component.css',
 })
 export class UserRegisterComponent {
   hide = true;
@@ -25,6 +24,7 @@ export class UserRegisterComponent {
   formCreate: FormGroup;
   makeSubmit: boolean = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  branchList: any;
   constructor(
     public fb: FormBuilder,
     private router: Router,
@@ -33,6 +33,7 @@ export class UserRegisterComponent {
     private notificacion: NotificacionService
   ) {
     this.reactiveForm();
+    this.listBranch();
   }
 
   reactiveForm() {
@@ -43,6 +44,7 @@ export class UserRegisterComponent {
       phone: ['', [Validators.required]],
       exactAddress: ['', [Validators.required]],
       birthDate: ['', [Validators.required]],
+      branchId: ['', [Validators.required]],
     });
   }
   ngOnInit(): void {}
@@ -53,16 +55,22 @@ export class UserRegisterComponent {
       return;
     }
     //Crear usuario
-    this.authService.createUser(this.formCreate.value)
-    .subscribe((respuesta:any)=>{
-      this.notificacion.mensajeRedirect(
-        'User registered',
-        'User Registered',
-        TipoMessage.success,
-        '/'
-      )
-      this.router.navigate(['/user/login'])
-    })
+    this.formCreate.patchValue({
+      branchId:  this.formCreate.get('branchId').value,
+    });
+    this.authService
+
+      .createUser(this.formCreate.value)
+      .subscribe((respuesta: any) => {
+        this.notificacion.mensajeRedirect(
+          'User registered',
+          'User Registered',
+          TipoMessage.success,
+          '/'
+        );
+        console.log(this.formCreate.value)
+        this.router.navigate(['/user/login']);
+      });
   }
   onReset() {
     this.formCreate.reset();
@@ -89,4 +97,14 @@ export class UserRegisterComponent {
     }
   };
 
+  listBranch() {
+    this.branchList = null;
+    this.gService
+      .list('branch')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log('Branch List:', data);
+        this.branchList = data;
+      });
+  }
 }
