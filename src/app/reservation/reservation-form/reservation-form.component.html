@@ -6,15 +6,14 @@
       </div>
       <div class="space-y-6">
    <!-- Branch Selection -->
-<div *ngIf="branchList" class="relative">
+   <div *ngIf="branchList" class="relative">
     <label class="block text-gray-700 font-medium mb-2">Branch</label>
-    <select
+    <select 
       formControlName="branchId"
-      class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out"
-        
+      class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out cursor-not-allowed opacity-50"
     >
       <option value="" disabled>Select a branch</option>
-      <option *ngFor="let item of branchList" [value]="item.id">
+      <option disabled *ngFor="let item of branchList" [value]="item.id">
         {{ item.name }}
       </option>
     </select>
@@ -22,6 +21,8 @@
       {{ errorHandling("branchId") }}
     </div>
   </div>
+  
+  
   
   
      <!-- New Client Name Filter -->
@@ -85,7 +86,7 @@
         >
           <option value="" disabled>Select a Service</option>
           <option *ngFor="let item of serviceList" [value]="item.id">
-            {{ item.name }}
+            {{ item.name }} -   {{ item.priceRate }}
           </option>
         </select>
         <div *ngIf="errorHandling('serviceId')" class="text-red-500 text-sm mt-1">
@@ -97,14 +98,15 @@
       <div>
         <label class="block text-gray-700 font-medium mb-2">Date</label>
         <div class="flex gap-4">
-          <input
+          <input 
             type="date"
             formControlName="date"
-            class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out"
-            required
-          />
-       
+            class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out cursor-not-allowed opacity-50"
+                [attr.readonly]="true"
+
+            />
         </div>
+        
         <div *ngIf="errorHandling('date')" class="text-red-500 text-sm mt-1">
           {{ errorHandling("date") }}
         </div>

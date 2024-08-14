@@ -25,10 +25,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class BillingListByManagerComponent implements OnInit, OnDestroy {
   data: any[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
- // managerId: number | null = null;
 
   constructor(private gService: GenericService,private router: Router) {
-   // this.managerId = 2;
     this.listInvoices();
   }
 

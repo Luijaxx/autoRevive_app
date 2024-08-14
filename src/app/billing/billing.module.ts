@@ -6,13 +6,15 @@ import { BillingRoutingModule } from './billing-routing.module';
 import { BillingIndexComponent } from './billing-index/billing-index.component';
 import { BillingListByManagerComponent } from './billing-list-by-manager/billing-list-by-manager.component';
 import { BillingDetailComponent } from './billing-detail/billing-detail.component';
+import { BillingListByManagerFilteredComponent } from './billing-list-by-manager-filtered/billing-list-by-manager-filtered.component';
 
 
 @NgModule({
   declarations: [
     BillingIndexComponent,
     BillingListByManagerComponent,
-    BillingDetailComponent
+    BillingDetailComponent,
+    BillingListByManagerFilteredComponent
   ],
   imports: [
     CommonModule,

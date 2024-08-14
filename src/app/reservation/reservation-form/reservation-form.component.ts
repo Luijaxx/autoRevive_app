@@ -41,7 +41,6 @@ import {
 })
 export class ReservationFormComponent implements OnInit, OnDestroy {
   data: any;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
   titleForm: string = 'Create';
   reservationForm: FormGroup;
@@ -70,6 +69,7 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
     this.listBranch();
     this.listClient();
     this.listService();
+
   }
 
   ngOnInit(): void {
@@ -91,19 +91,13 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
             });
           });
         console.log(this.reservationForm.value);
-        console.log(this.reservationForm.value);
-
-        console.log(this.reservationForm.value);
-        console.log(this.reservationForm.value);
-        console.log(this.reservationForm.value);
-
       }
     });
   }
 
   getAvailableTimeSlotsForBranch(event: Event): void {
-    const dateSchedule = this.reservationForm.get('date').value;
-    const branchId = this.reservationForm.get('branchId').value;
+    const dateSchedule = this.reservationForm.value.date;
+    const branchId = this.reservationForm.value.branchId;
     const startTimeSchedule = this.reservationForm.get('startTime').value;
     const endTimeSchedule = this.reservationForm.get('endTime').value;
 
@@ -150,11 +144,9 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
       const currentEnd = new Date(currentStart.getTime() + serviceTime * 60000);
 
       if (currentEnd <= endTimeForSchedule) {
-        // Verificar si el intervalo de tiempo actual se solapa con alguna reserva existente
         const isOccupied = existingReservations.some((reservation) => {
           const resStart = new Date(reservation.startTime);
           const resEnd = new Date(reservation.endTime);
-          // El intervalo actual está ocupado si se solapa con alguna reserva
 
           return currentStart < resEnd && currentEnd > resStart;
         });
@@ -167,7 +159,6 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
         }
       }
 
-      // Avanzar un minuto para la siguiente iteración
       currentStart = new Date(currentStart.getTime() + serviceTime * 60000);
     }
 
@@ -175,12 +166,10 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
   }
 
   formularioReactive() {
-    
     this.reservationForm = this.fb.group({
       id: [null],
       branchId: [null, Validators.required],
       availableTimeSlots: [null, Validators.required],
-
       clientId: [null, Validators.required],
       serviceId: [null, Validators.required],
       date: [null],
@@ -190,7 +179,6 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
       answer2: [false],
       answer3: [false],
       statusId: [1],
-
     });
   }
 
@@ -268,22 +256,17 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
     this.listService();
   }
 
- 
-
   submitSchedule(): void {
     if (this.reservationForm.invalid) {
       return;
     }
-
+  
     const selectedTimeSlot = this.reservationForm.value.availableTimeSlots;
     const [startTime, endTime] = selectedTimeSlot.split('-');
     const date = this.reservationForm.get('date').value;
-
-    
-
+  
     this.reservationForm.patchValue({
       clientId: parseInt(this.reservationForm.value.clientId),
-      branchId: parseInt(this.reservationForm.value.branchId),
       serviceId: parseInt(this.reservationForm.value.serviceId),
       startTime: `${moment(date).format('YYYY-MM-DD')}T${startTime}`,
       endTime: `${moment(date).format('YYYY-MM-DD')}T${endTime}`,
@@ -292,12 +275,53 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
       answer2: this.reservationForm.value.answer2 ? 'Yes' : 'No',
       answer3: this.reservationForm.value.answer3 ? 'Yes' : 'No',
     });
-
-    
+  
     console.log(this.reservationForm.value);
-
-    this.guardarReservation();
+  
+    const invoice = {
+      userId: this.reservationForm.value.clientId,
+      branchId: this.reservationForm.value.branchId,
+      date: new Date().toISOString(),
+      total: this.serviceList.find(
+        (s: any) => s.id === parseInt(this.reservationForm.value.serviceId)
+      ).priceRate * 1.13, 
+    };
+  
+    const detail = {
+      invoiceId: 0, 
+      serviceId: this.reservationForm.value.serviceId,
+      productId: null,
+      date: new Date().toISOString(),
+      quantity: 1,
+      subtotal: invoice.total,
+    };
+  
+    this.gService.create('invoice', invoice).toPromise()
+      .then((invoiceData: any) => {
+        detail.invoiceId = invoiceData.id;
+  
+        return this.gService.create('invoiceDetail', detail).toPromise();
+      })
+      .then((detailData: any) => {
+        this.noti.mensaje(
+          'Create detail',
+          `Detail created: ${detailData.id}`,
+          TipoMessage.success
+        );
+      })
+      .catch((error: any) => {
+        console.error('Error creating invoice or detail:', error);
+        this.noti.mensaje(
+          'Error',
+          'There was an error creating the invoice or detail.',
+          TipoMessage.error
+        );
+      })
+      .finally(() => {
+        this.guardarReservation();
+      });
   }
+  
 
   guardarReservation() {
     this.gService
