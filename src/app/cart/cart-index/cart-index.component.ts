@@ -53,6 +53,7 @@ export class CartIndexComponent {
 
   checkout() {
     const items = this.cartService.getItems;
+    let idInvoice = null;
     if (items?.length > 0) {
       if (this.currentUser == null) {
         this.notificacionService.mensaje(
@@ -64,7 +65,60 @@ export class CartIndexComponent {
         return;
       }
       let item = this.cartService.getItems;
+      
+      items.forEach(element => {
+        if(element.hasOwnProperty('id')){
+          idInvoice= element.id;
+        }
+      });
 
+      if(idInvoice != null){
+        this.genericService.get('invoice', idInvoice)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: any) => {
+          let order = {
+            ['id']: idInvoice,
+            ['date']: this.date,
+            ['total']: this.total,
+            ['canceled']: 'YES',
+            ['branchId']: this.currentUser.branchId,
+            ['userId']: this.currentUser.id
+          };
+          this.genericService.update('invoice', order).subscribe((data: any) => {
+            this.notificacionService.mensajeRedirect(
+              'Order updated successfully',
+              'Order#' + data.id,
+              TipoMessage.success,
+              '/invoice/' + idInvoice
+            );
+            this.router.navigate(['/invoice/', idInvoice]);
+
+            const invoiceId = data.id;
+            let detail = item.map((item: any) => ({
+
+              ['invoiceId']: invoiceId,
+              ['productId']: item.idItem,
+              ['serviceId']: item.idItemService,
+              ['quantity']: item.quantity,
+              ['subtotal']: item.subtotal,
+              ['date']: this.date,
+            }));
+            detail.forEach((detail: any) => {
+              this.genericService.create('invoiceDetail', detail).subscribe(
+                (detailResponse: any) => {
+                  console.log('InvoiceDetail:', detailResponse);
+                },
+                (error: any) => {
+                  console.error('Error:', error);
+                }
+              );
+            });
+            this.cartService.deleteCart();
+          });
+        });
+
+      } else {
+      
       let order = {
         ['date']: this.date,
         ['total']: this.total,
@@ -100,6 +154,7 @@ export class CartIndexComponent {
         });
         this.cartService.deleteCart();
       });
+    }
     } else {
       this.notificacionService.mensaje(
         'You must add products to the cart',

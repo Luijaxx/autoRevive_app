@@ -18,7 +18,7 @@ import { BillingListByManagerFilteredComponent } from './billing-list-by-manager
     BillingListByManagerComponent,
     BillingDetailComponent,
 
-    BillingFormComponent
+    BillingFormComponent,
 
     BillingListByManagerFilteredComponent
 
