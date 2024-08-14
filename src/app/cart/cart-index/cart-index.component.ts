@@ -139,7 +139,7 @@ export class CartIndexComponent {
           ['productId']: item.idItem,
           ['serviceId']: item.idItemService,
           ['quantity']: item.quantity,
-          ['subtotal']: item.subtotal,
+          ['subtotal']: item.subtotal * 1.13,
           ['date']: this.date,
         }));
         detail.forEach((detail: any) => {
@@ -153,6 +153,8 @@ export class CartIndexComponent {
           );
         });
         this.cartService.deleteCart();
+        this.router.navigate(['/invoice/', invoiceId]);
+
       });
     }
     } else {
