@@ -11,6 +11,7 @@ export class ItemCart {
   price: number;
   subtotal: number;
   total: number;
+  id: number;
 }
 @Injectable({
   providedIn: 'root',
@@ -188,6 +189,37 @@ export class CartService {
     this.cart.next(null);
     this.qtyItems.next(0);
     this.totalCart.next(0);
+    this.saveCart();
+  }
+
+  public loadCart(items: any) {
+    this.cart.next(null);
+    let newCart = [];
+    let invoiceId = (items.id) ? items.id : items.invoiceDetails[0].id;
+    items.invoiceDetails.forEach((item) => {
+      const newItem = new ItemCart();
+      if (item.product !== null) {
+        newItem.id = invoiceId;
+        newItem.idItem = item.product.id;
+        newItem.name = item.product.name;
+        newItem.price = item.product.price;
+        newItem.quantity = item.quantity;
+        newItem.subtotal = newItem.price * newItem.quantity;
+        newItem.product = item.product;
+      } else {
+        newItem.id = invoiceId;
+        newItem.idItemService = item.service.id;
+        newItem.name = item.service.name;
+        newItem.price = item.service.priceRate;
+        newItem.quantity = item.quantity;
+        newItem.subtotal = newItem.price * newItem.quantity;
+        newItem.service = item.service;
+      }
+      newCart.push(newItem);
+    });
+    this.cart.next(newCart);
+    this.qtyItems.next(this.quantityItems());
+    this.totalCart.next(this.calculateNetTotal());
     this.saveCart();
   }
 }
