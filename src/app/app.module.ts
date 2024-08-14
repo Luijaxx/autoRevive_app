@@ -20,6 +20,7 @@ import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
 import { BranchModule } from './branch/branch.module';
 import { HttpErrorInterceptorService } from './share/http-error-interceptor.service';
 import { HttpAuthInterceptorService } from './share/http-auth-interceptor.service';
+import { CartModule } from './cart/cart.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,6 +45,7 @@ import { HttpAuthInterceptorService } from './share/http-auth-interceptor.servic
     CalendarModule,
     ScheduleModule,
     BranchModule,
+    CartModule,
 
 
   ],
