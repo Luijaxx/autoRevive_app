@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from '../../share/generic.service';
-import { ActivatedRoute } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { NotificacionService, TipoMessage } from '../../share/notification.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-billing-detail',
@@ -26,7 +27,9 @@ export class BillingDetailComponent {
   destroy$: Subject<boolean> = new Subject<boolean>();
   total: number = 0; 
 
-  constructor(private gService: GenericService, private route: ActivatedRoute) {
+  constructor(private gService: GenericService,     private router: Router,
+    private noti: NotificacionService
+,    private route: ActivatedRoute) {
     let id = this.route.snapshot.paramMap.get('id');
     if (!isNaN(Number(id))) 
       this.getInvoice(Number(id));
@@ -42,7 +45,21 @@ export class BillingDetailComponent {
       });
   }
 
-
+  cancelInvoice(){
+    this.data.canceled = "YES";
+    this.gService
+        .update('invoice', this.data)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: any) => {
+          this.noti.mensajeRedirect(
+            'Cancel Invoice',
+            `Invoice Cancel: ${data.id}`,
+            TipoMessage.success,
+            '/invoice/listByManagerFiltered'
+          );
+          this.router.navigate(['/invoice/listByManagerFiltered']);
+        });
+  }
 
   ngOnDestroy() {
     this.destroy$.next(true);

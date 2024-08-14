@@ -10,10 +10,10 @@ import { BillingListByManagerFilteredComponent } from './billing-list-by-manager
 
 const routes: Routes = [
   {path: 'invoice/listByManagerFiltered', component: BillingListByManagerFilteredComponent},
+  {path: 'invoice', component: BillingIndexComponent},
 
   {path: 'invoice/listByManager/:id', component: BillingListByManagerComponent},
   {path: 'invoice/:id', component: BillingDetailComponent},
-  {path: 'invoice', component: BillingIndexComponent},
 
 ];
 
