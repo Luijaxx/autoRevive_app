@@ -12,9 +12,18 @@
       </p>
       <p class="mt-2 text-base text-gray-600">
         Status:
-        <span [style.color]="data.status.color">{{
-          data.status.description
-        }}</span>
+       <span
+  [ngStyle]="{
+    'color': data.status.color,
+    'text-shadow': '1px 1px 2px gray, -1px -1px 2px gray, 1px -1px 2px gray, -1px 1px 2px gray'
+  }"
+>
+  {{ data.status.description }}
+</span>
+
+
+
+        
       </p>
     </div>
 

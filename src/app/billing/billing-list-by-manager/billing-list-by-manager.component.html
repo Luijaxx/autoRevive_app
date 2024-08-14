@@ -1,32 +1,7 @@
 <div class="px-4 sm:px-0  m-8">
   <h2 class="font-sans  text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Billing List By Manager</h2>
 </div>
-<!-- <div
-  class=" my-8 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
->
-  <div class="flex justify-center">
-    <div class="m-8">
-      <input
-        class=" w-full max-w-48 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        type="number"
-        placeholder="ID Manager"
-        [(ngModel)]="managerId"
-      />
-    </div>
-    <div class="m-8">
-      <button
-        class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        (click)="listByManager()"
-      >
-        Get Invoices
-      </button>
-    </div>
-  </div>
 
-
-  
-   
-</div> -->
 <div @fadeIn class="grid grid-cols-4 gap-4">
     @for (item of data; track item.id) {
   
