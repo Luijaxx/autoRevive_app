@@ -3,12 +3,12 @@ class="flex justify-center items-center min-h-screen bg-gray-100">
   <div class="container mx-auto mt-10 bg-white rounded-lg shadow overflow-hidden">
     <!-- Invoice Header -->
     <div  class="px-6 py-4 bg-gray-100 border-b border-gray-200">
-      <h1 class="text-2xl font-bold text-gray-800">Invoice #{{ data.id }}</h1>
-      <p class="mt-2 text-base text-gray-600">Issued on: {{ data.date | date:'dd/MM/yyyy' }}</p>
+      <h1 class="text-2xl font-bold text-gray-800">Invoice #{{ data?.id }}</h1>
+      <p class="mt-2 text-base text-gray-600">Issued on: {{ data?.date | date:'dd/MM/yyyy' }}</p>
       <p class="mt-2 text-base text-gray-600">
         Status: 
-        <span class="{{ data.canceled === 'NO' ? 'underline text-green-500' : 'underline text-red-500' }}">
-            {{ data.canceled === 'NO' ? 'Active' : 'Canceled' }}
+        <span class="{{ data?.canceled === 'NO' ? 'underline text-green-500' : 'underline text-red-500' }}">
+            {{ data?.canceled === 'NO' ? 'Active' : 'Canceled' }}
         </span>
     </p>    </div>
 
@@ -17,11 +17,11 @@ class="flex justify-center items-center min-h-screen bg-gray-100">
       <!-- Customer Information -->
       <div class="mb-6">
         <h2 class="text-lg font-semibold text-gray-800">Customer Information</h2>
-        <p class="mt-2 text-base text-gray-600">ID:  {{ data.user.id }} </p>
-        <p class="text-base text-gray-600">{{ data.user.name }}  -  {{ data.user.email}}</p>
+        <p class="mt-2 text-base text-gray-600">ID:  {{ data?.user.id }} </p>
+        <p class="text-base text-gray-600">{{ data?.user.name }}  -  {{ data?.user.email}}</p>
         <h2 class="text-lg font-semibold text-gray-800">Branch Information</h2>
-        <p class="mt-2 text-base text-gray-600">{{ data.branch.name }} - {{data.branch.email}}</p>
-        <p class="text-base text-gray-600">Phone: {{ data.branch.phoneNumber }}   Address: {{ data.user.exactAddress}}</p>
+        <p class="mt-2 text-base text-gray-600">{{ data?.branch.name }} - {{data?.branch.email}}</p>
+        <p class="text-base text-gray-600">Phone: {{ data?.branch.phoneNumber }}   Address: {{ data?.user.exactAddress}}</p>
 
       </div>
 
@@ -37,7 +37,7 @@ class="flex justify-center items-center min-h-screen bg-gray-100">
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            @for (itemDetail of data.invoiceDetails; track itemDetail.id) {
+            @for (itemDetail of data?.invoiceDetails; track itemDetail?.id) {
 
             <tr >
               <td class="px-6 font-bold  py-4 whitespace-nowrap text-base text-gray-900">
@@ -55,8 +55,32 @@ class="flex justify-center items-center min-h-screen bg-gray-100">
 
     <!-- Invoice Footer -->
     <div  class="px-6 py-4 bg-gray-100 border-t border-gray-200 text-base text-gray-600">
-        <p class="mt-2 font-bold text-lg text-gray-600">Total Amount: {{ data.total | currency }}</p>
-        <p>Payment terms: Due in 30 days</p>
+        <p class="mt-2 font-bold text-lg text-gray-600">Total Amount: {{ data?.total | currency }}</p>
+        <p class="mb-2">Payment terms: Due in 30 days</p>
+@if((currentUser?.role == "MANAGER") && (data.canceled == "NO")){
+        <a
+          class=" inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          (click)="cancelInvoice()"
+
+          >
+          Cancel Invoice
+          <svg
+            class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 5h12m0 0L9 1m4 4L9 9"
+            />
+          </svg>
+        </a>
+      }
     </div>
   </div>
 </div>

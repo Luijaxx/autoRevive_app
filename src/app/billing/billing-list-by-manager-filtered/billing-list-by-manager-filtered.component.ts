@@ -41,6 +41,9 @@ export class BillingListByManagerFilteredComponent  implements OnInit, OnDestroy
   selectedMonth: number = new Date().getMonth();
   selectedYear: number = new Date().getFullYear();
   clientNameFilter: string = ''; 
+  authService: AuthenticationService = inject(AuthenticationService);
+  auth: boolean = false;
+  currentUser: any;
 
   months = [
     { name: 'January', value: 0 },
@@ -64,6 +67,8 @@ export class BillingListByManagerFilteredComponent  implements OnInit, OnDestroy
     private route: ActivatedRoute,
     private datePipe: DatePipe
   ) {
+    this.authService.decodeToken.subscribe((user) => (this.currentUser = user));
+    this.authService.isAuthenticated.subscribe((valor) => (this.auth = valor));
     this.listInvoices();
 
     this.generateYearOptions();
@@ -90,15 +95,17 @@ export class BillingListByManagerFilteredComponent  implements OnInit, OnDestroy
   }
 
   listInvoices() {
+    if (this.auth) {
+
       this.gService
-        .list('invoice')
+        .get('invoice/listByManager',this.currentUser.id)
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: any[]) => {
           console.log('Invoice from server:', data);
           this.data = this.filterinvoicesByMonthYear(data);
           this.generateCalendar();
         });
- 
+    }
   }
   
 

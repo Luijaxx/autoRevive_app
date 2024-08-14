@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CartService } from '../../share/cart.service';
 import { Router } from '@angular/router';
@@ -36,12 +36,16 @@ export class HeaderComponent {
   isAuthenticated:boolean
   currentUser:any
   qtyItems:Number=0
+  authServices: AuthenticationService = inject(AuthenticationService);
+  auth: boolean = false;
 
   constructor(private cartService: CartService,
     private router: Router,
     private authService: AuthenticationService,
     private notificacion: NotificacionService
   ) {
+    this.authService.decodeToken.subscribe((user) => (this.currentUser = user));
+    this.authService.isAuthenticated.subscribe((valor) => (this.auth = valor));
     //Obtener valor actual de la cantidad de items comprados
     this.qtyItems=this.cartService.quantityItems()
   }

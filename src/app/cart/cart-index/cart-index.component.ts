@@ -139,7 +139,7 @@ export class CartIndexComponent {
           ['productId']: item.idItem,
           ['serviceId']: item.idItemService,
           ['quantity']: item.quantity,
-          ['subtotal']: item.subtotal,
+          ['subtotal']: item.subtotal * 1.13,
           ['date']: this.date,
         }));
         detail.forEach((detail: any) => {
@@ -153,6 +153,8 @@ export class CartIndexComponent {
           );
         });
         this.cartService.deleteCart();
+        this.router.navigate(['/invoice/', invoiceId]);
+
       });
     }
     } else {
@@ -194,6 +196,8 @@ export class CartIndexComponent {
 
   deleteItemFromCart(item: any) {
     this.cartService.deleteItem(item);
+    if(item.quantity <= 0)
+    this.cartService.autoDelete(item);
   }
   ngOnDestroy() {
     this.destroy$.next(true);

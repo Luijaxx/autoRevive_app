@@ -150,11 +150,17 @@ export class CartService {
     let listCart = this.cart.getValue();
     let objIndex = -1;
     if (listCart) {
-      objIndex = listCart.findIndex(
-        (obj) =>
-          obj.idItem == newData.idItem ||
-          obj.idItemService == newData.idItemService
-      );
+      if (newData.hasOwnProperty('idItem')) {
+        objIndex = listCart.findIndex(
+          (obj) => obj.idItem === newData.idItem && obj.hasOwnProperty('idItem')
+        );
+      } else if (newData.hasOwnProperty('idItemService')) {
+        objIndex = listCart.findIndex(
+          (obj) =>
+            obj.idItemService === newData.idItemService &&
+            obj.hasOwnProperty('idItemService')
+        );
+      }
       if (objIndex != -1) {
         listCart.splice(objIndex, 1);
         this.cart.next(listCart);
@@ -221,5 +227,11 @@ export class CartService {
     this.qtyItems.next(this.quantityItems());
     this.totalCart.next(this.calculateNetTotal());
     this.saveCart();
+  }
+
+  autoDelete(item: any){
+      if(item.quantity <= 0 ){
+        this.removeFromCart(item)
+      }
   }
 }
