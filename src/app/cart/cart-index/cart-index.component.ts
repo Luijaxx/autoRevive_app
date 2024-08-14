@@ -196,6 +196,8 @@ export class CartIndexComponent {
 
   deleteItemFromCart(item: any) {
     this.cartService.deleteItem(item);
+    if(item.quantity <= 0)
+    this.cartService.autoDelete(item);
   }
   ngOnDestroy() {
     this.destroy$.next(true);
