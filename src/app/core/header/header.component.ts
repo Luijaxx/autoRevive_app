@@ -82,17 +82,18 @@ export class HeaderComponent {
     this.router.navigate(['/']);
   }
 
-  toggleDropdown(menu: string) {
-    // Cierra todos los menús antes de abrir el menú seleccionado
-    for (const key in this.openDropdowns) {
-      if (this.openDropdowns.hasOwnProperty(key)) {
+  toggleDropdown(dropdownId: string) {
+    // Cierra todos los dropdowns
+    Object.keys(this.openDropdowns).forEach(key => {
+      if (key !== dropdownId) {
         this.openDropdowns[key] = false;
       }
-    }
-    // Abre el menú seleccionado
-    this.openDropdowns[menu] = true;
+    });
   
+    // Alterna el estado del dropdown seleccionado
+    this.openDropdowns[dropdownId] = !this.openDropdowns[dropdownId];
   }
+  
 
   closeDropdown(menu: string) {
     this.openDropdowns[menu] = false;
