@@ -55,10 +55,7 @@ export class HeaderComponent {
     this.cartService.countItems.subscribe((valor)=>{
       this.qtyItems=valor
     })
-   /*  this.isAuthenticated=false
-    this.currentUser={
-      email: "isw@prueba.com"
-    } */
+   
     this.authService.isAuthenticated.subscribe((valor)=>{
       this.isAuthenticated=valor
     })
