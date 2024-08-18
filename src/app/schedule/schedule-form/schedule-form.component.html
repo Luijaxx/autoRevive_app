@@ -10,10 +10,8 @@
         <label class="block text-gray-700 font-medium mb-2">Branch</label>
         <select
           formControlName="branchId"
-          (change)="onBranchChange($event)"
           class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out"
         >
-          <option value="" disabled>Select a branch</option>
           <option *ngFor="let item of branchList" [value]="item.id">
             {{ item.name }}
           </option>
