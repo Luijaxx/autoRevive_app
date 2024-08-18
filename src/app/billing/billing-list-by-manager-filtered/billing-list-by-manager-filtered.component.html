@@ -80,6 +80,10 @@
           <div class="text-gray-700">
             <div *ngFor="let invoice of item.invoices">
               <div class="my-1">
+                <span class="font-semibold">Invoice #</span>
+                <span>{{ invoice.id }}</span>
+              </div>
+              <div class="my-1">
                 <span class="font-semibold">Date: </span>
                 <span>{{ formatDate(invoice.date) }}</span>
               </div>

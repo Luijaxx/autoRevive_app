@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { catchError, map, Observable, Subject, takeUntil, throwError } from 'rxjs';
@@ -8,6 +8,7 @@ import { FormErrorMessage } from '../../form-error-message';
 import moment from 'moment';
 moment.locale("es");
 import { DatePipe } from '@angular/common';
+import { AuthenticationService } from '../../share/authentication.service';
 
 @Component({
   selector: 'app-schedule-form',
@@ -27,6 +28,9 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
   branchId: number | null = null;
   selectedMonth: number = new Date().getMonth();
   selectedYear: number = new Date().getFullYear();
+  authService: AuthenticationService = inject(AuthenticationService);
+  auth: boolean = false;
+  currentUser: any;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -34,6 +38,8 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     private gService: GenericService,
     private noti: NotificacionService
   ) {
+    this.authService.decodeToken.subscribe((user) => (this.currentUser = user));
+    this.authService.isAuthenticated.subscribe((valor) => (this.auth = valor));
     this.formularioReactive();
     this.listBranch();
   }
@@ -108,8 +114,9 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       .list('branch')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
-        console.log('Branch List:', data); 
-        this.branchList = data;
+        console.log('Branch List:', data);
+        // Filter branches based on currentUser.branchId
+        this.branchList = data.filter((branch: any) => branch.id === this.currentUser.branchId);
       });
   }
 

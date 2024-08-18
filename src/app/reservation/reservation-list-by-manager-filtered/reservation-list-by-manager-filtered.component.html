@@ -38,7 +38,7 @@
       </select>
     </div>
 
- <!--    Branch Selector 
+    @if(currentUser.role == "ADMIN"){
     <div class="relative">
       <label class="block text-gray-700">Select Branch</label>
       <select
@@ -50,8 +50,8 @@
           {{ branch.name }}
         </option>
       </select>
-    </div> -->
-
+    </div> 
+  }
      <!-- New Client Name Filter -->
   <div class="relative">
     <label class="block text-gray-700">Filter by Client Name</label>

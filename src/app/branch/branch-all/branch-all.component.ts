@@ -73,7 +73,7 @@ export class BranchAllComponent implements AfterViewInit {
   listbranchs() {
     //localhost:3000/videojuego
     this.gService
-      .list('branch/')
+      .list('branch/withManager')
       .pipe(takeUntil(this.destroy$))
       .subscribe((respuesta: any) => {
         console.log(respuesta);

@@ -6,7 +6,7 @@ import { UserRegisterComponent } from './user-register/user-register.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserIndexComponent } from './user-index/user-index.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatButtonModule} from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -17,13 +17,19 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutModule } from '@angular/cdk/layout';
 import {MatCardModule} from '@angular/material/card';
+import { UserRolChangerByAdminComponent } from './user-rol-changer-by-admin/user-rol-changer-by-admin.component';
+import { UserAllComponent } from './user-all/user-all.component';
+import { UserChangePlaceOfPurchaseComponent } from './user-change-place-of-purchase/user-change-place-of-purchase.component';
 
 
 @NgModule({
   declarations: [
     UserRegisterComponent,
     UserLoginComponent,
-    UserIndexComponent
+    UserIndexComponent,
+    UserRolChangerByAdminComponent,
+    UserAllComponent,
+    UserChangePlaceOfPurchaseComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +42,7 @@ import {MatCardModule} from '@angular/material/card';
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
+    FormsModule,
     ReactiveFormsModule,
     UserRoutingModule
   ]

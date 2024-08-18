@@ -1,9 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from '../../share/generic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { AuthenticationService } from '../../share/authentication.service';
 
 interface CalendarDay {
   date: Date;
@@ -46,18 +47,23 @@ export class ScheduleIndexComponent implements OnInit, OnDestroy {
     { name: 'December', value: 11 }
   ];
   years: number[] = [];
-
+  authService: AuthenticationService = inject(AuthenticationService);
+  auth: boolean = false;
+  currentUser: any;
   constructor(
     private gService: GenericService,
     private router: Router,
     private route: ActivatedRoute,
     private datePipe: DatePipe
   ) {
+    this.authService.decodeToken.subscribe((user) => (this.currentUser = user));
+    this.authService.isAuthenticated.subscribe((valor) => (this.auth = valor));
     this.listBranch();
     this.generateYearOptions();
   }
 
   ngOnInit(): void {
+    this.branchId = this.currentUser.branchId
     this.updateCalendar();
   }
 
@@ -68,12 +74,13 @@ export class ScheduleIndexComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         console.log('Branch List:', data);
-        this.branchList = data;
+        // Filter branches based on currentUser.branchId
+        this.branchList = data.filter((branch: any) => branch.id === this.currentUser.branchId);
       });
   }
+  
 
-  onBranchChange(event: Event): void {
-    this.branchId = +(event.target as HTMLSelectElement).value;
+  onBranchChange(): void {
     this.updateCalendar();
   }
 

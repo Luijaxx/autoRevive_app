@@ -304,8 +304,8 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
       })
       .then((detailData: any) => {
         this.noti.mensaje(
-          'Create detail',
-          `Detail created: ${detailData.id}`,
+          'Create Invoice',
+          `Invoice created: ${detailData.invoiceId}`,
           TipoMessage.success
         );
       })
