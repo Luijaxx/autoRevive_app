@@ -90,6 +90,11 @@ export class ReservationListByManagerFilteredComponent implements OnInit, OnDest
       });
   }
 
+  onBranchChange(event: Event): void {
+    this.branchId = +(event.target as HTMLSelectElement).value;
+    this.updateCalendar();
+  }
+
   onMonthChange(event: Event): void {
     this.selectedMonth = +(event.target as HTMLSelectElement).value;
     this.updateCalendar();

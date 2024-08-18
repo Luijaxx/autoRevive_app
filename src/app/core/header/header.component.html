@@ -390,47 +390,58 @@
 
     </div>
   
-    <div class="hidden lg:flex lg:flex-1 lg:justify-end ">
-      <a [routerLink]="['cart']" class="text-sm font-semibold leading-6 text-gray-900">
+    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <a [routerLink]="['/cart']" class="text-sm font-semibold leading-6 text-gray-900">
         <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
           <path fill="currentColor"
             d="M17 18c-1.11 0-2 .89-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2M1 2v2h2l3.6 7.59l-1.36 2.45c-.15.28-.24.61-.24.96a2 2 0 0 0 2 2h12v-2H7.42a.25.25 0 0 1-.25-.25q0-.075.03-.12L8.1 13h7.45c.75 0 1.41-.42 1.75-1.03l3.58-6.47c.07-.16.12-.33.12-.5a1 1 0 0 0-1-1H5.21l-.94-2M7 18c-1.11 0-2 .89-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2" />
         </svg>
       </a>
-      @if(!isAuthenticated) {
-        <div class="hidden lg:flex lg:flex-1 lg:justify-end ">
-          <a [routerLink]="['user']" class="text-sm font-semibold leading-6 text-gray-900">Log in <span
-              aria-hidden="true">&rarr;</span></a>
-        </div>
-        } @else {
-  
-            <div class="relative mx-8">
-              <button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
-                (click)="toggleDropdown('user')" aria-expanded="openDropdowns['user']">
-                {{currentUser.email}}
-                <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd"
-                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                    clip-rule="evenodd" />
-                </svg>
-              </button>
-              @if(openDropdowns['user']) {
-              <div
-                class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
-                [@dropdownAnimation]="openDropdowns['user'] ? 'open' : 'closed'">
-                <div class="p-4">
-                  <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
-                    <div (click)="logout()" class="flex-auto">
-                      <a (click)="logout()" class="text-sm font-semibold leading-6 text-gray-900">Log out <span
-                        aria-hidden="true">&rarr;</span></a>
-                    </div>
-                  </div>
-                </div>
+    
+      <div *ngIf="!isAuthenticated" class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <a [routerLink]="['/user/login']" class="text-sm font-semibold leading-6 text-gray-900">Log in 
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    
+      <div *ngIf="isAuthenticated" class="relative mx-8">
+        <button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+          (click)="toggleDropdown('user')" [attr.aria-expanded]="openDropdowns['user']">
+          {{currentUser.email}}
+          <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd" />
+          </svg>
+        </button>
+    
+        <div *ngIf="openDropdowns['user']" class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+          <div class="p-4">
+            <div *ngIf="currentUser.role === 'ADMIN'" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+              <div [routerLink]="['/user/update']" class="flex-auto">
+                <a [routerLink]="['/user/update']" class="text-sm font-semibold leading-6 text-gray-900">User List 
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
               </div>
-              }
- 
             </div>
-        }
+            <div  *ngIf="currentUser.role === 'CLIENT'" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+              <div [routerLink]="['/user/clientBranchChange']" class="flex-auto">
+                <a [routerLink]="['/user/clientBranchChange']" class="text-sm font-semibold leading-6 text-gray-900">Change my place of purchase 
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+            </div>
+            <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+              <div (click)="logout()" class="flex-auto">
+                <a (click)="logout()" class="text-sm font-semibold leading-6 text-gray-900">Log out 
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    
   </nav>
 </header>
