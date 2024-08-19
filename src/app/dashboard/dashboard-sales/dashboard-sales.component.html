@@ -1,0 +1,36 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Sales Report</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dashboard-card-content">
+      <ngx-charts-bar-horizontal
+        [results]="data"
+        [animations]="animations"
+        [scheme]="colorScheme"
+        [legend]="legend"
+        [legendTitle]="legendTitle"
+        [xAxis]="xAxis"
+        [yAxis]="yAxis"
+        [showYAxisLabel]="showYAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [dataLabelFormatting]="dataLabelFormatter"
+      ></ngx-charts-bar-horizontal>
+    </mat-card-content>
+
+
+    <mat-card-content class="dashboard-card-content">
+        <ngx-charts-bar-horizontal
+          [results]="dataS"
+          [animations]="animations"
+          [scheme]="colorScheme"
+          [legend]="legend"
+          [legendTitle]="legendTitle"
+          [xAxis]="xAxis"
+          [yAxis]="yAxis"
+          [showYAxisLabel]="showYAxisLabel"
+          [yAxisLabel]="yAxisLabelS"
+          [dataLabelFormatting]="dataLabelFormatter"
+        ></ngx-charts-bar-horizontal>
+      </mat-card-content>
+  </mat-card>
+  
