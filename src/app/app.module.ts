@@ -21,6 +21,7 @@ import { BranchModule } from './branch/branch.module';
 import { HttpErrorInterceptorService } from './share/http-error-interceptor.service';
 import { HttpAuthInterceptorService } from './share/http-auth-interceptor.service';
 import { CartModule } from './cart/cart.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,6 +47,7 @@ import { CartModule } from './cart/cart.module';
     ScheduleModule,
     BranchModule,
     CartModule,
+    DashboardModule,
 
 
   ],
