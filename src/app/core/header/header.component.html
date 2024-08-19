@@ -417,6 +417,13 @@
     
         <div *ngIf="openDropdowns['user']" class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
           <div class="p-4">
+            <div *ngIf="currentUser.role === 'ADMIN'||'MANAGER'" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+              <div class="flex-auto">
+                <a  class="text-sm font-semibold leading-6 text-gray-900">Dashboard
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+            </div>
             <div *ngIf="currentUser.role === 'ADMIN'" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div [routerLink]="['/user/update']" class="flex-auto">
                 <a [routerLink]="['/user/update']" class="text-sm font-semibold leading-6 text-gray-900">User List 
@@ -431,6 +438,8 @@
                 </a>
               </div>
             </div>
+            
+            
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div (click)="logout()" class="flex-auto">
                 <a (click)="logout()" class="text-sm font-semibold leading-6 text-gray-900">Log out 
