@@ -60,6 +60,10 @@ export class ScheduleIndexComponent implements OnInit, OnDestroy {
     this.authService.isAuthenticated.subscribe((valor) => (this.auth = valor));
     this.listBranch();
     this.generateYearOptions();
+    this.branchId = this.currentUser.branchId
+
+    this.updateCalendar();
+
   }
 
   ngOnInit(): void {
@@ -75,12 +79,17 @@ export class ScheduleIndexComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         console.log('Branch List:', data);
         // Filter branches based on currentUser.branchId
+        if(this.currentUser.branchId >= 1){
         this.branchList = data.filter((branch: any) => branch.id === this.currentUser.branchId);
+        }else{
+          this.branchList = data
+        }
       });
   }
   
 
-  onBranchChange(): void {
+  onBranchChange(event: Event): void {
+    this.branchId = +(event.target as HTMLSelectElement).value;
     this.updateCalendar();
   }
 

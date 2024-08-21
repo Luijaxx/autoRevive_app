@@ -101,5 +101,21 @@ export class AuthenticationService {
     }
     return false;
   }
+
+  reset() {
+    // Si hay un usuario actual
+    if (this.tokenUserValue) {
+      // Limpiar el localStorage
+      localStorage.clear();
+      // Reiniciar los observables relacionados al usuario
+      this.tokenUserSubject.next(null);
+      this.authenticated.next(false);
+      this.user.next(null);
+      // Eliminar carrito
+      this.cartService.deleteCart();
+      // Opcional: redirigir a la página de inicio o login después de resetear
+      this.router.navigate(['/login']);
+    }
+  }
  
 }

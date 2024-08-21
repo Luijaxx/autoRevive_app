@@ -112,6 +112,9 @@ export class ReservationListByManagerFilteredComponent implements OnInit, OnDest
 
   listScheduleWithReservationsByBranch() {
     if (this.auth) {
+
+      if(this.currentUser.role == 'MANAGER'){
+
       this.gService.get('schedule/getByBranch', this.currentUser.branchId)
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: any[]) => {
@@ -120,13 +123,52 @@ export class ReservationListByManagerFilteredComponent implements OnInit, OnDest
           this.generateCalendar();
         });
 
-      this.gService.get('reservation/listByManager', this.currentUser.id)
+        this.gService.get('reservation/listByManager', this.currentUser.id)
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: any[]) => {
           console.log('Reservations from server:', data);
           this.dataReservations = this.filterSchedulesByMonthYear(data);
           this.generateCalendar();
         });
+      }else if(this.currentUser.role == 'ADMIN'){
+        if(this.branchId){
+        this.gService.get('schedule/getByBranch', this.branchId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: any[]) => {
+          console.log('Schedules from server:', data);
+          this.dataSchedule = this.filterSchedulesByMonthYear(data);
+          this.generateCalendar();
+        });
+
+        this.gService.get('reservation/getByBranch', this.branchId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: any[]) => {
+          console.log('Reservations from server:', data);
+          this.dataReservations = this.filterSchedulesByMonthYear(data);
+          this.generateCalendar();
+        });
+      }
+      }
+      else if(this.currentUser.role == 'CLIENT'){
+        this.gService.get('schedule/getByBranch', this.currentUser.branchId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: any[]) => {
+          console.log('Schedules from server:', data);
+          this.dataSchedule = this.filterSchedulesByMonthYear(data);
+          this.generateCalendar();
+        });
+
+        this.gService.get('reservation/getByIdClientBranch', this.currentUser.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: any[]) => {
+          console.log('Reservations from server:', data);
+          this.dataReservations = this.filterSchedulesByMonthYear(data);
+          this.generateCalendar();
+        });
+   
+      }
+
+   
     }
   }
 
@@ -204,7 +246,11 @@ export class ReservationListByManagerFilteredComponent implements OnInit, OnDest
   }
 
 
-
+  updateReservation(id: number) {
+    this.router.navigate(['/reservation/update', id], {
+      relativeTo: this.route,
+    });
+  }
 
   createReservation(selectedDate: Date) {
     this.router.navigate(['/reservation/create', selectedDate], {

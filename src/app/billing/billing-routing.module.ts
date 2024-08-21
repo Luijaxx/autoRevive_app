@@ -6,13 +6,20 @@ import { BillingDetailComponent } from './billing-detail/billing-detail.componen
 import { BillingIndexComponent } from './billing-index/billing-index.component';
 
 import { BillingListByManagerFilteredComponent } from './billing-list-by-manager-filtered/billing-list-by-manager-filtered.component';
+import { authGuard } from '../share/auth.guard';
 
 
 const routes: Routes = [
-  {path: 'invoice/listByManagerFiltered', component: BillingListByManagerFilteredComponent},
-  {path: 'invoice', component: BillingIndexComponent},
+  {path: 'invoice/listByManagerFiltered', component: BillingListByManagerFilteredComponent,
+    canActivate: [authGuard],
+    data: { roles: ['MANAGER','CLIENT'] }},
+  {path: 'invoice', component: BillingIndexComponent,
+    canActivate: [authGuard],
+    data: { roles: ['MANAGER','CLIENT'] }},
 
-  {path: 'invoice/listByManager/:id', component: BillingListByManagerComponent},
+  {path: 'invoice/listByManager/:id', component: BillingListByManagerComponent,
+    canActivate: [authGuard],
+    data: { roles: ['MANAGER','CLIENT'] }},
   {path: 'invoice/:id', component: BillingDetailComponent},
 
 ];

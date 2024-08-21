@@ -1,33 +1,35 @@
 <section class="bg-white dark:bg-gray-900 flex">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl text-left lg:py-16 flex-1 ">
-        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">AutoRevive</h1>
-        <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl  dark:text-gray-400">At AutoRevive, we are dedicated to keeping your vehicle in top shape. Whether you're looking for high-quality car products or need professional repair services, we've got you covered.
+    <div class="py-12 px-6 mx-auto max-w-screen-xl text-left lg:py-20 flex-1">
+        <h1 class="mb-6 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">AutoRevive</h1>
+        <p class="mb-10 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
+            At AutoRevive, we are dedicated to keeping your vehicle in top shape. Whether you're looking for high-quality car products or need professional repair services, we've got you covered.
 
             Explore our wide range of automotive products, from essential maintenance items to the latest accessories, designed to enhance your driving experience. Our expert technicians are also on hand to provide reliable repair services, ensuring your car is always running smoothly.
-            
-            Trust us to deliver excellence in both products and services, helping you keep your vehicle at its best.</p>
-        <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
-        </div>
-    </div >
 
-    <div class="flex py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 flex-1 items-center justify-center">
-        
+            Trust us to deliver excellence in both products and services, helping you keep your vehicle at its best.
+        </p>
+        <!-- Botón debajo del texto -->
+        <div class="flex flex-col space-y-4 sm:flex-row sm:justify-start sm:space-y-0">
+            <a [routerLink]="['cart/items']" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+                Products and Services List
+            </a>
+        </div>
+    </div>
+
+    <div class="flex py-12 px-6 mx-auto max-w-screen-xl text-center lg:py-20 flex-1 items-center justify-center">
         <div class="relative w-full max-w-lg overflow-y-scroll bg-white border border-gray-100 rounded-lg dark:bg-gray-700 dark:border-gray-600 h-96">
             <ul>
                 @for (item of data; track item.id) {
-                    <li class="border-b border:gray-100 dark:border-gray-600">
-                        <a href="#" class="flex items-center justify-center w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800">                        <div>
+                    <li class="border-b border-gray-100 dark:border-gray-600">
+                        <a href="#" class="flex items-center justify-center w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800">
+                            <div>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">Branch: <span class="font-medium text-gray-900 dark:text-white">{{item.name}}</span>: {{item.description}}</p>
                                 <span class="text-xs text-blue-600 dark:text-blue-500">{{item.exactAddress}}</span>
                             </div>
                         </a>
                     </li>
                 }
-                
-                
             </ul>
-
         </div>
     </div>
 </section>
-

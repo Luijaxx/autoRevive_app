@@ -5,6 +5,7 @@ import { UserRegisterComponent } from './user-register/user-register.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRolChangerByAdminComponent } from './user-rol-changer-by-admin/user-rol-changer-by-admin.component';
 import { UserChangePlaceOfPurchaseComponent } from './user-change-place-of-purchase/user-change-place-of-purchase.component';
+import { authGuard } from '../share/auth.guard';
 
 const routes: Routes = [
   {
@@ -15,8 +16,12 @@ const routes: Routes = [
       { path: 'register', component: UserRegisterComponent },
     ],
   },
-  { path: 'user/update', component: UserRolChangerByAdminComponent }, 
-  { path: 'user/clientBranchChange', component: UserChangePlaceOfPurchaseComponent }, 
+  { path: 'user/update', component: UserRolChangerByAdminComponent ,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN'] }}, 
+  { path: 'user/clientBranchChange', component: UserChangePlaceOfPurchaseComponent,
+    canActivate: [authGuard],
+    data: { roles: ['CLIENT'] }}, 
 
 ];
 

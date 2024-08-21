@@ -1,6 +1,9 @@
 
-<div class="px-4 sm:px-0  m-8">
-  <h2 class="font-sans  text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Reservation List By Manager</h2>
+<div *ngIf="this.currentUser.role==='MANAGER'" class="px-4 sm:px-0  m-8">
+  <h2  class="font-sans  text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Reservation List By Manager</h2>
+</div>
+<div *ngIf="this.currentUser.role==='CLIENT'" class="px-4 sm:px-0  m-8">
+  <h2  class="font-sans  text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">My Reservations</h2>
 </div>
 <!-- <div
   class=" my-8 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
