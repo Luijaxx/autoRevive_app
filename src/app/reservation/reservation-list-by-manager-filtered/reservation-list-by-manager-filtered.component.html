@@ -115,7 +115,7 @@
                   <!-- Wrapper with tooltip text -->
                   <div class="relative group">
                     <svg
-                    *ngIf="schedule.availability === 'SCHEDULE' && isScheduleValid(schedule.startDate)"
+                    *ngIf="(schedule.availability === 'SCHEDULE') && (isScheduleValid(schedule.startDate))&&(this.currentUser.role != 'ADMIN')"
 
                     (click)="createReservation(schedule.id)" 
                     class="h-8 w-8 text-slate-100 rounded-full hover:bg-white"
@@ -158,6 +158,7 @@
                 <span class="font-semibold">Service:</span>
                 <span>{{ reservation.service.name }}</span>
               </div>
+              
 
               <div class="flex justify-end">
                 <button

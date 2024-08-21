@@ -1,4 +1,27 @@
+.sales-report-card {
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .dashboard-card-content {
-    padding: 16px;
-  }
+  margin-bottom: 20px;
+}
+
+mat-card-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+mat-card-header {
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+mat-card-content {
+  padding: 10px 0;
+}
+
   

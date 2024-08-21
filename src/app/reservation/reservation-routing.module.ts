@@ -4,14 +4,30 @@ import { ReservationListByManagerComponent } from './reservation-list-by-manager
 import { ReservationDetailComponent } from './reservation-detail/reservation-detail.component';
 import { ReservationListByManagerFilteredComponent } from './reservation-list-by-manager-filtered/reservation-list-by-manager-filtered.component';
 import { ReservationFormComponent } from './reservation-form/reservation-form.component';
+import { authGuard } from '../share/auth.guard'; // Verifica esta importación
 
 const routes: Routes = [
-  {path: 'reservation/listByManager', component: ReservationListByManagerComponent},
-
-  {path: 'reservation/listByManagerFiltered', component: ReservationListByManagerFilteredComponent},
-  {path: 'reservation/create/:id', component: ReservationFormComponent},
-  {path: 'reservation/:id', component: ReservationDetailComponent},
-
+  { 
+    path: 'reservation/listByManagerFiltered', 
+    component: ReservationListByManagerFilteredComponent,
+    canActivate: [authGuard],
+    data: { roles: ['MANAGER','ADMIN','CLIENT'] }
+  },
+  { path: 'reservation/listByManager', component: ReservationListByManagerComponent ,
+    canActivate: [authGuard],
+    data: { roles: ['MANAGER','ADMIN','CLIENT'] }
+  },
+  { path: 'reservation/create/:id', component: ReservationFormComponent,
+    canActivate: [authGuard],
+    data: { roles: ['MANAGER','ADMIN','CLIENT'] }
+  },
+  {path: 'reservation/update/:id', component: ReservationFormComponent,
+    canActivate: [authGuard],
+    data: { roles: ['MANAGER'] }},
+  { path: 'reservation/:id', component: ReservationDetailComponent ,
+    canActivate: [authGuard],
+    data: { roles: ['MANAGER','ADMIN','CLIENT'] }
+  },
 ];
 
 @NgModule({

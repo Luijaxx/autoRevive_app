@@ -24,7 +24,7 @@
   
   
   
-  
+  @if(this.currentUser.role === 'MANAGER'){
      <!-- New Client Name Filter -->
      <div class="relative">
         <label class="block text-gray-700">Filter by Client Name</label>
@@ -58,7 +58,7 @@
       {{ errorHandling("clientId") }}
     </div>
   </div>
-
+}
     <!-- New Service Name Filter -->
     <div class="relative">
         <label class="block text-gray-700">Filter by Service Name</label>

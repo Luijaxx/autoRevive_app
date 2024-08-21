@@ -129,10 +129,34 @@
       </div>
     </div>
 
+@if(data.status.description != "Canceled"){
+<div
+  class="px-6 py-4 bg-gray-100 border-t border-gray-200 text-base text-gray-600"
+  [ngStyle]="{ 'background-color': data.status.color }"
+>
+  <button
+    (click)="cancelReservation(data.id)"
+    class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition-colors duration-300"
+  >
+    Cancel Reservation
+  </button>
+
+  @if((this.currentUser.role === 'CLIENT')&&(this.data.status.description != 'Confirmed')){
+  <button 
+  (click)="confirmReservation(data.id)"
+  class="ml-4 bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700 transition-colors duration-300"
+>
+  Confim Reservation
+</button>
+}
+</div>
+}
     <!-- Reservation Footer -->
     <div
       class="px-6 py-4 bg-gray-100 border-t border-gray-200 text-base text-gray-600"
       [ngStyle]="{ 'background-color': data.status.color }"
     ></div>
+
+    
   </div>
 </div>

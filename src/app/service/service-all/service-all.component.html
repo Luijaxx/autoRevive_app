@@ -1,4 +1,4 @@
-<div class="mt-12 w-full bg-white rounded shadow">
+<div @fadeIn class="mt-12 w-full bg-white rounded shadow">
   <!-- Card Title -->
   <div class="py-4 border-b p-8">
     <div class="flex items-center justify-between">
@@ -34,8 +34,19 @@
 
   <div class="px-20">
     <hr class="mb-4" />
+    
+    <!-- Campo de búsqueda -->
+    <div class="mb-4">
+      <input
+        type="text"
+        class="w-full p-2 border rounded"
+        placeholder="Buscar por nombre de servicio"
+        (input)="applyFilter($event)"
+      />
+    </div>
+
     <!-- Table -->
-    <div class="overflow-x-auto">
+    <div @fadeIn class="overflow-x-auto">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
@@ -66,8 +77,8 @@
             </th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr *ngFor="let row of dataSource.data">
+        <tbody @fadeIn class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let row of paginatedData">
             <td class="px-6 py-4 whitespace-nowrap">{{ row.name }}</td>
             <td class="px-6 py-4 whitespace-nowrap">{{ row.warranty}} - months</td>
 

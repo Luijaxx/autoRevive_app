@@ -1,36 +1,73 @@
-<mat-card>
-    <mat-card-header>
-      <mat-card-title>Sales Report</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="dashboard-card-content">
-      <ngx-charts-bar-horizontal
-        [results]="data"
-        [animations]="animations"
-        [scheme]="colorScheme"
-        [legend]="legend"
-        [legendTitle]="legendTitle"
-        [xAxis]="xAxis"
-        [yAxis]="yAxis"
-        [showYAxisLabel]="showYAxisLabel"
-        [yAxisLabel]="yAxisLabel"
-        [dataLabelFormatting]="dataLabelFormatter"
-      ></ngx-charts-bar-horizontal>
-    </mat-card-content>
+<mat-card class="sales-report-card">
+  @if(this.currentUser.role === "ADMIN"){
 
+  <mat-card-header>
+    <mat-card-title>Sales Report</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="dashboard-card-content">
+    <ngx-charts-bar-horizontal
+      [results]="data"
+      [animations]="animations"
+      [scheme]="colorScheme"
+      [legend]="legend"
+      [legendTitle]="legendTitle"
+      [xAxis]="xAxis"
+      [yAxis]="yAxis"
+      [showYAxisLabel]="showYAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [dataLabelFormatting]="dataLabelFormatter"
+    ></ngx-charts-bar-horizontal>
+  </mat-card-content>
 
-    <mat-card-content class="dashboard-card-content">
-        <ngx-charts-bar-horizontal
-          [results]="dataS"
-          [animations]="animations"
-          [scheme]="colorScheme"
-          [legend]="legend"
-          [legendTitle]="legendTitle"
-          [xAxis]="xAxis"
-          [yAxis]="yAxis"
-          [showYAxisLabel]="showYAxisLabel"
-          [yAxisLabel]="yAxisLabelS"
-          [dataLabelFormatting]="dataLabelFormatter"
-        ></ngx-charts-bar-horizontal>
-      </mat-card-content>
-  </mat-card>
-  
+  <mat-card-content class="dashboard-card-content">
+    <ngx-charts-bar-horizontal
+      [results]="dataS"
+      [animations]="animations"
+      [scheme]="colorScheme"
+      [legend]="legend"
+      [legendTitle]="legendTitle"
+      [xAxis]="xAxis"
+      [yAxis]="yAxis"
+      [showYAxisLabel]="showYAxisLabel"
+      [yAxisLabel]="yAxisLabelS"
+      [dataLabelFormatting]="dataLabelFormatter"
+    ></ngx-charts-bar-horizontal>
+  </mat-card-content>
+
+  <mat-card-header>
+    <mat-card-title>Reservations per Branch</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="dashboard-card-content">
+    <ngx-charts-pie-chart
+      [results]="dataB"
+      [animations]="animations"
+      [scheme]="colorScheme"
+      [legend]="legend"
+      [legendTitle]="legendTitle"
+    ></ngx-charts-pie-chart>
+  </mat-card-content>
+}
+
+@if(this.currentUser.role === "MANAGER"){
+
+  <mat-card-header>
+    <mat-card-title>Reservations</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="dashboard-card-content">
+    <ngx-charts-bar-horizontal
+      [results]="dataM"
+      [animations]="animations"
+      [scheme]="colorScheme"
+      [legend]="legend"
+      [legendTitle]="legendTitle"
+      [xAxis]="xAxis"
+      [yAxis]="yAxis"
+      [showYAxisLabel]="showYAxisLabel"
+      [yAxisLabel]="yAxisLabelM"
+      [dataLabelFormatting]="dataLabelFormatter"
+    ></ngx-charts-bar-horizontal>
+  </mat-card-content>
+
+ 
+}
+</mat-card>

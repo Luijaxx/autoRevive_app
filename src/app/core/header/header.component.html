@@ -41,7 +41,7 @@
                 </svg>
               </div>
 
-              <div class="flex-auto">
+              <div  class="flex-auto">
                 <a [routerLink]="['/product']" (click)="closeDropdown('product')"
                   class="block font-semibold text-gray-900">
                   Products
@@ -52,7 +52,7 @@
 
 
             </div>
-            <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+            <div *ngIf="(this.currentUser?.role==='MANAGER')||(this.currentUser?.role==='ADMIN')" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div
                 class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                 <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
@@ -71,7 +71,7 @@
               </div>
             </div>
 
-            <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+            <div  *ngIf="(this.currentUser?.role==='CLIENT')" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div
                 class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                 <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
@@ -115,7 +115,7 @@
           class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
           [@dropdownAnimation]="openDropdowns['service'] ? 'open' : 'closed'">
           <div class="p-4">
-            <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+            <div *ngIf="(this.currentUser?.role==='ADMIN')|| (this.currentUser?.role==='MANAGER')" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div
                 class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                 <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
@@ -165,7 +165,7 @@
 
 
 
-      <div class="relative mx-8">
+      <div *ngIf="this.currentUser?.role==='ADMIN'" class="relative mx-8">
         <button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
           (click)="toggleDropdown('branch')" aria-expanded="openDropdowns['branch']">
           Branch
@@ -180,7 +180,7 @@
           class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
           [@dropdownAnimation]="openDropdowns['branch'] ? 'open' : 'closed'">
           <div class="p-4">
-            <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+            <div  class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div
                 class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                 <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
@@ -195,14 +195,14 @@
                   Branch Table
                   <span class="absolute inset-0"></span>
                 </a>
-                <p class="mt-1 text-gray-600">Get a better understanding of your traffic</p>
+                <p class="mt-1 text-gray-600">Branch maintenance</p>
               </div>
             </div>
           </div>
         </div>
         }
       </div>
-      <div class="relative mx-8">
+      <div *ngIf="(this.currentUser?.role ==='MANAGER')" class="relative mx-8">
         <button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
           (click)="toggleDropdown('billing')" aria-expanded="openDropdowns['billing']">
           Billing
@@ -216,7 +216,7 @@
         <div
           class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
           [@dropdownAnimation]="openDropdowns['billing'] ? 'open' : 'closed'">
-          <div class="p-4">
+        <!--   <div class="p-4">
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div
                 class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
@@ -236,7 +236,7 @@
               </div>
             </div>
 
-          </div>
+          </div> -->
 
           <div class="p-4">
             <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
@@ -287,7 +287,7 @@
         }
       </div>
 
-      <div class="relative mx-8">
+      <div  class="relative mx-8">
         <button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
           (click)="toggleDropdown('reservations')" aria-expanded="openDropdowns['reservations']">
           Reservations
@@ -298,7 +298,7 @@
           </svg>
         </button>
         @if(openDropdowns['reservations']) {
-        <div
+        <div *ngIf="(this.currentUser.role === 'ADMIN')||(this.currentUser.role ==='MANAGER')"
           class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
           [@dropdownAnimation]="openDropdowns['reservations'] ? 'open' : 'closed'">
           <div class="p-4">
@@ -332,7 +332,7 @@
               <div class="flex-auto">
                 <a [routerLink]="['/reservation/listByManagerFiltered']" (click)="closeDropdown('reservations')"
                   class="block font-semibold text-gray-900">
-                  Reservations List by Manager Filtered
+                  Reservation Calendar 
                   <span class="absolute inset-0"></span>
                 </a>
                 <p class="mt-1 text-gray-600">Get a better understanding of your traffic</p>
@@ -340,12 +340,57 @@
             </div>
           </div>
         </div>
+
+
+
+        <div *ngIf="(this.currentUser.role ==='CLIENT')"
+        class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
+        [@dropdownAnimation]="openDropdowns['reservations'] ? 'open' : 'closed'">
+        <div class="p-4">
+          <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+            <div
+              class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+              <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+              </svg>
+            </div>
+            <div class="flex-auto">
+              <a [routerLink]="['/reservation/listByManager']" (click)="closeDropdown('reservations')"
+                class="block font-semibold text-gray-900">
+                My Reservations
+                <span class="absolute inset-0"></span>
+              </a>
+              <p class="mt-1 text-gray-600">Get a better understanding of your traffic</p>
+            </div>
+          </div>
+          <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+            <div
+              class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+              <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+              </svg>
+            </div>
+            <div class="flex-auto">
+              <a [routerLink]="['/reservation/listByManagerFiltered']" (click)="closeDropdown('reservations')"
+                class="block font-semibold text-gray-900">
+                Reservation Calendar 
+                <span class="absolute inset-0"></span>
+              </a>
+              <p class="mt-1 text-gray-600">Get a better understanding of your traffic</p>
+            </div>
+          </div>
+        </div>
+      </div>
         }
       </div>
 
 
-
-      <div class="relative mx-8">
+ 
+      <div *ngIf="(this.currentUser?.role === 'ADMIN')||(this.currentUser?.role ==='MANAGER')" class="relative mx-8">
         <button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
           (click)="toggleDropdown('schedule')" aria-expanded="openDropdowns['schedule']">
           Schedule
@@ -356,7 +401,7 @@
           </svg>
         </button>
         @if(openDropdowns['schedule']) {
-        <div
+        <div 
           class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
           [@dropdownAnimation]="openDropdowns['schedule'] ? 'open' : 'closed'">
           <div class="p-4">
@@ -381,13 +426,13 @@
           </div>
         </div>
         }
-
+      
         
 
 
 
       </div>
-
+    
     </div>
   
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -417,21 +462,21 @@
     
         <div *ngIf="openDropdowns['user']" class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
           <div class="p-4">
-            <div *ngIf="currentUser.role === 'ADMIN'||'MANAGER'" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+            <div *ngIf="(this.currentUser?.role === 'ADMIN')||(this.currentUser?.role === 'MANAGER')" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div [routerLink]="['/dashboardSalesComponent']" class="flex-auto">
                 <a [routerLink]="['/dashboardSalesComponent']" class="text-sm font-semibold leading-6 text-gray-900">Dashboard
                   <span aria-hidden="true">&rarr;</span>
                 </a>
               </div>
             </div>
-            <div *ngIf="currentUser.role === 'ADMIN'" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+            <div *ngIf="currentUser?.role === 'ADMIN'" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div [routerLink]="['/user/update']" class="flex-auto">
                 <a [routerLink]="['/user/update']" class="text-sm font-semibold leading-6 text-gray-900">User List 
                   <span aria-hidden="true">&rarr;</span>
                 </a>
               </div>
             </div>
-            <div  *ngIf="currentUser.role === 'CLIENT'" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+            <div  *ngIf="currentUser?.role === 'CLIENT'" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
               <div [routerLink]="['/user/clientBranchChange']" class="flex-auto">
                 <a [routerLink]="['/user/clientBranchChange']" class="text-sm font-semibold leading-6 text-gray-900">Change my place of purchase 
                   <span aria-hidden="true">&rarr;</span>

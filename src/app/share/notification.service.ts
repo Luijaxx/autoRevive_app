@@ -39,5 +39,14 @@ Toast Type: success, info, warning, error
       .onHidden.subscribe(()=>this.router.navigateByUrl(url))
  
   }
+
+  public mensajeRedirectTimed(titulo: string, mensaje: string, tipo:TipoMessage, url: string) {
+    this.options.disableTimeOut = false;
+    this.options.timeOut = 2000;
+    this.toastr
+      .show(mensaje, titulo, this.options, 'toast-'+TipoMessage[tipo])
+      .onHidden.subscribe(()=>this.router.navigateByUrl(url))
+ 
+  }
   
 }

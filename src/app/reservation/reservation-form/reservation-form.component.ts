@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
@@ -27,6 +27,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { AuthenticationService } from '../../share/authentication.service';
 
 @Component({
   selector: 'app-reservation-form',
@@ -41,6 +42,7 @@ import {
 })
 export class ReservationFormComponent implements OnInit, OnDestroy {
   data: any;
+  dataClient: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
   titleForm: string = 'Create';
   reservationForm: FormGroup;
@@ -51,6 +53,9 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
   clientList: any;
   serviceList: any;
   scheduleInfo: any;
+  currentUser: any;
+  authService: AuthenticationService = inject(AuthenticationService);
+  auth: boolean = false;
 
   clientNameFilter: string = '';
   serviceNameFilter: string = '';
@@ -65,11 +70,20 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
     private gService: GenericService,
     private noti: NotificacionService
   ) {
+    this.authService.decodeToken.subscribe((user) => (this.currentUser = user));
+    this.authService.isAuthenticated.subscribe((valor) => (this.auth = valor));
     this.formularioReactive();
     this.listBranch();
+
     this.listClient();
+
     this.listService();
 
+    if (this.currentUser.role === 'CLIENT') {
+      this.reservationForm.patchValue({
+        clientId: this.currentUser.id,
+      });
+    }
   }
 
   ngOnInit(): void {
@@ -85,6 +99,9 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
             this.scheduleInfo = data;
             this.reservationForm.patchValue({
               branchId: parseInt(this.scheduleInfo.branchId),
+
+              //   clientId: this.currentUser.id,
+
               date: moment(this.scheduleInfo.startDate).format('YYYY-MM-DD'),
               startTime: moment(this.scheduleInfo.startDate).format('HH:mm'),
               endTime: moment(this.scheduleInfo.endDate).format('HH:mm'),
@@ -249,6 +266,16 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  getClient() {
+    this.serviceList = null;
+    this.gService
+      .get('user', this.currentUser.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.dataClient = data;
+      });
+  }
+
   onServiceNameChange(event: Event): void {
     this.serviceNameFilter = (
       event.target as HTMLInputElement
@@ -260,11 +287,11 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
     if (this.reservationForm.invalid) {
       return;
     }
-  
+
     const selectedTimeSlot = this.reservationForm.value.availableTimeSlots;
     const [startTime, endTime] = selectedTimeSlot.split('-');
     const date = this.reservationForm.get('date').value;
-  
+
     this.reservationForm.patchValue({
       clientId: parseInt(this.reservationForm.value.clientId),
       serviceId: parseInt(this.reservationForm.value.serviceId),
@@ -275,31 +302,34 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
       answer2: this.reservationForm.value.answer2 ? 'Yes' : 'No',
       answer3: this.reservationForm.value.answer3 ? 'Yes' : 'No',
     });
-  
+
     console.log(this.reservationForm.value);
-  
+
     const invoice = {
       userId: this.reservationForm.value.clientId,
       branchId: this.reservationForm.value.branchId,
       date: new Date().toISOString(),
-      total: this.serviceList.find(
-        (s: any) => s.id === parseInt(this.reservationForm.value.serviceId)
-      ).priceRate * 1.13, 
+      total:
+        this.serviceList.find(
+          (s: any) => s.id === parseInt(this.reservationForm.value.serviceId)
+        ).priceRate * 1.13,
     };
-  
+
     const detail = {
-      invoiceId: 0, 
+      invoiceId: 0,
       serviceId: this.reservationForm.value.serviceId,
       productId: null,
       date: new Date().toISOString(),
       quantity: 1,
       subtotal: invoice.total,
     };
-  
-    this.gService.create('invoice', invoice).toPromise()
+
+    this.gService
+      .create('invoice', invoice)
+      .toPromise()
       .then((invoiceData: any) => {
         detail.invoiceId = invoiceData.id;
-  
+
         return this.gService.create('invoiceDetail', detail).toPromise();
       })
       .then((detailData: any) => {
@@ -321,7 +351,6 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
         this.guardarReservation();
       });
   }
-  
 
   guardarReservation() {
     this.gService
